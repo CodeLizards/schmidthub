@@ -6,15 +6,18 @@ Landing page + delivery-plan pitch surface for the Schmidt Hub for IP
 ## Standards
 
 This project follows the shared engineering standards in the AGENTS.md
-library at `~/Development/AGENTS/`. Two links surface them in this tree:
+library at `~/Development/AGENTS/`. Two copies are checked in here for
+portability across machines:
 
-- `./AGENTS-shared.md` → generic engineering standards
+- `./AGENTS-shared.md` — generic engineering standards
   (scope, error handling, security, testing, comments, naming, git,
   dependency hygiene). Read this first.
-- `./src/AGENTS.md` → React/Next.js best practices (Vercel).
-  Load automatically when working under `src/`.
+- `./src/AGENTS.md` — React/Next.js best practices (Vercel). Loads
+  automatically when working under `src/`.
 
-Where the two overlap, the stack-specific one wins.
+Where the two overlap, the stack-specific one wins. These are copies
+snapshotted from the upstream library — re-copy from
+`~/Development/AGENTS/` when it changes.
 
 ## Project details
 
