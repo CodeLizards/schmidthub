@@ -1,12 +1,6 @@
-import {
-  BarChart2,
-  Zap,
-  Shield,
-  FileText,
-  Image as ImageIcon,
-  ArrowRight,
-} from "lucide-react";
-import { ENTRIES, ENTRY_TYPES, PARTNERS, LICENSE_TYPES } from "@/lib/content";
+import { BarChart2, Zap, Shield, ArrowRight } from "lucide-react";
+import { PARTNERS, LICENSE_TYPES } from "@/lib/content";
+import { FeaturedEntries } from "@/components/featured-entries";
 
 export default function HomePage() {
   return (
@@ -123,123 +117,6 @@ function HeroCard({
 }
 
 /* ────────────────────── Featured entries ──────────────────── */
-
-function FeaturedEntries() {
-  return (
-    <section id="portfolio" className="py-20 px-6 max-w-7xl mx-auto">
-      <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
-        <div>
-          <h2 className="font-serif font-normal text-3xl text-ink tracking-[-0.02em] leading-tight">
-            Featured IP entries
-          </h2>
-          <p className="text-sm text-muted/60 mt-1 font-mono">
-            Recently added and highly accessed
-          </p>
-        </div>
-        <a
-          href="#browse-all"
-          className="text-sm underline underline-offset-2 text-muted hover:text-ink transition-colors"
-        >
-          Browse all →
-        </a>
-      </div>
-
-      {/* Filter tabs */}
-      <div className="flex flex-wrap gap-2 mb-8">
-        {ENTRY_TYPES.map((t, i) => (
-          <button
-            key={t}
-            type="button"
-            className={
-              "px-3 py-1.5 text-sm rounded transition-colors " +
-              (i === 0
-                ? "bg-ink text-white"
-                : "text-muted hover:text-ink hover:bg-gray-50 border border-border")
-            }
-          >
-            {t}
-          </button>
-        ))}
-      </div>
-
-      <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {ENTRIES.map((e) => (
-          <EntryCard key={e.id} entry={e} />
-        ))}
-      </ul>
-    </section>
-  );
-}
-
-function EntryCard({ entry }: { entry: (typeof ENTRIES)[number] }) {
-  return (
-    <li>
-      <a
-        href={`#entry-${entry.id}`}
-        className="group h-full text-left bg-white border border-border hover:border-gray-400 rounded transition-all duration-200 hover:shadow-sm flex flex-col overflow-hidden"
-      >
-        <div className="p-5 flex flex-col gap-3 flex-1">
-          {/* Placeholder image */}
-          <div className="relative w-full h-36 rounded overflow-hidden bg-gray-100 mb-1 shrink-0 border border-gray-200">
-            <svg
-              className="absolute inset-0 w-full h-full text-gray-200"
-              preserveAspectRatio="none"
-              viewBox="0 0 100 100"
-              aria-hidden
-            >
-              <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-              <line x1="100" y1="0" x2="0" y2="100" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-            </svg>
-            <span className="absolute inset-0 flex items-center justify-center text-[10px] font-normal text-muted/60 uppercase tracking-[0.08em] px-2 text-center leading-relaxed">
-              {entry.type}
-            </span>
-            <div className="absolute top-2 left-2 z-10">
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium tracking-wide uppercase bg-ink text-white border border-ink">
-                {entry.subject}
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center">
-            <span className="text-xs text-muted/60 leading-snug">
-              {entry.org}
-            </span>
-          </div>
-
-          <h3 className="font-serif font-normal text-ink text-xl leading-snug group-hover:text-black transition-colors">
-            {entry.title}
-          </h3>
-
-          <p className="text-sm text-muted leading-relaxed line-clamp-3">
-            {entry.description}
-          </p>
-
-          <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
-            {entry.tags.map((t) => (
-              <span
-                key={t}
-                className="text-[11px] text-muted bg-gray-100 border border-gray-200 px-2 py-0.5 rounded"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-4 pt-2 border-t border-gray-100 mt-1">
-            <span className="flex items-center gap-1 text-xs text-muted/60">
-              <FileText size={12} strokeWidth={2} />
-              {entry.docs} doc{entry.docs === 1 ? "" : "s"}
-            </span>
-            <span className="flex items-center gap-1 text-xs text-muted/60">
-              <ImageIcon size={12} strokeWidth={2} />
-              {entry.images} image{entry.images === 1 ? "" : "s"}
-            </span>
-          </div>
-        </div>
-      </a>
-    </li>
-  );
-}
 
 /* ────────────────────── Licensing options ─────────────────── */
 

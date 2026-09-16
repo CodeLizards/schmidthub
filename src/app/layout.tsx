@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${arimo.variable} h-full`}>
-      <body className="min-h-full flex flex-col bg-white">
+      <body className="min-h-full flex flex-col">
         <SiteNav />
         <main className="flex-1">{children}</main>
         <SiteFooter />

@@ -23,7 +23,7 @@
 
 @layer base {
   html, body {
-    background: #ffffff;
+    background: #f6f7f9;
     color: var(--color-ink);
   }
   body {
