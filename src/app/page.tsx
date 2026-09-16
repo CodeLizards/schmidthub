@@ -6,7 +6,7 @@ import {
   Image as ImageIcon,
   ArrowRight,
 } from "lucide-react";
-import { ENTRIES, ENTRY_TYPES, PARTNERS } from "@/lib/content";
+import { ENTRIES, ENTRY_TYPES, PARTNERS, LICENSE_TYPES } from "@/lib/content";
 
 export default function HomePage() {
   return (
@@ -58,16 +58,39 @@ function Hero() {
             cta="Get started"
             href="#add"
           />
-          <HeroCard
-            Icon={Shield}
-            title="License IP"
-            body="Every entry ships with a clear license — Open Research, CC BY 4.0, MIT, Apache 2.0, or Commercial terms — chosen by the inventor."
-            cta="Compare license types"
-            href="#licensing"
-          />
+          <LicenseIPCard />
         </div>
       </div>
     </section>
+  );
+}
+
+/* License IP hero card — mini list of license families with hover tooltip */
+function LicenseIPCard() {
+  return (
+    <div className="w-full flex flex-col items-start text-left bg-white border border-border rounded p-5 transition-colors">
+      <Shield size={16} className="mb-4 text-muted/60" />
+      <h2 className="font-serif font-normal text-xl mb-2">License IP</h2>
+      <p className="text-sm text-muted leading-relaxed mb-3">
+        Every entry ships with a clear license — chosen by the inventor,
+        shown to the reader before download.
+      </p>
+      <div className="space-y-1 w-full">
+        {LICENSE_TYPES.map((l) => (
+          <div key={l.id} className="relative group">
+            <button
+              type="button"
+              className="w-full text-left text-sm font-medium text-ink hover:underline inline-flex items-center gap-1.5 py-1"
+            >
+              {l.name} <span aria-hidden>→</span>
+            </button>
+            <div className="absolute left-0 top-full mt-1 z-20 w-72 bg-gray-100 border border-gray-200 text-ink text-xs leading-relaxed rounded-md p-3 shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200">
+              {l.description}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
