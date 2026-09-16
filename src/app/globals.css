@@ -14,7 +14,11 @@
   --color-panel: #f6f7f9;
 
   --font-serif: "Cambria", "Georgia", serif;
-  --font-sans: var(--font-arimo), "Arimo", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  /* Body uses the system stack (matches the wireframes exactly).
+     Arimo is loaded via next/font and available as font-arimo /
+     var(--font-arimo) for accents (logo, buttons). */
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-arimo-stack: var(--font-arimo), "Arimo", sans-serif;
 }
 
 @layer base {
