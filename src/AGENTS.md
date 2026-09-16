@@ -1,0 +1,1 @@
+/Users/elizabethharris/Development/AGENTS/stacks/react/AGENTS.md
