@@ -1,83 +1,69 @@
-import { ENTRIES, ENTRY_TYPES, PARTNERS, LICENSE_TYPES } from "@/lib/content";
+import {
+  BarChart2,
+  Zap,
+  Shield,
+  FileText,
+  Image as ImageIcon,
+  ArrowRight,
+} from "lucide-react";
+import { ENTRIES, ENTRY_TYPES, PARTNERS } from "@/lib/content";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <LicenseBand />
       <FeaturedEntries />
+      <LicensingOptions />
       <FoundingPartners />
-      <CtaBand />
+      <JoinCommunity />
     </>
   );
 }
 
-/* ───────────────────────── Hero ───────────────────────── */
+/* ─────────────────────────── Hero ─────────────────────────── */
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-rule">
-      {/* subtle radial light for depth, kept quiet */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/2 h-[560px] w-[900px] -translate-x-1/2 rounded-full opacity-40 blur-3xl"
-        style={{
-          background:
-            "radial-gradient(closest-side, #1E3E63 0%, rgba(30,62,99,0) 70%)",
-        }}
-      />
-      <div className="mx-auto grid max-w-[1240px] gap-16 px-6 pb-24 pt-20 md:grid-cols-[1.4fr_1fr] md:pt-28">
-        <div>
-          <div className="eyebrow flex items-center gap-3">
-            <span className="h-px w-6 bg-muted" />
+    <section className="pt-32 pb-16 border-b border-border bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center max-w-3xl mx-auto">
+          <p className="text-xs font-normal text-muted/60 uppercase tracking-[0.08em] mb-6">
             Schmidt Hub for IP
-          </div>
-          <h1 className="mt-6 font-serif text-[54px] font-medium leading-[1.02] tracking-tight text-ink text-balance md:text-[68px]">
-            Sharing Innovation.{" "}
-            <span className="italic text-accent">
-              Maximising&nbsp;Impact.
-            </span>
-          </h1>
-          <p className="mt-6 max-w-[52ch] text-[17px] leading-relaxed text-ink-2">
-            The Schmidt Hub connects world-class research with the institutions,
-            entrepreneurs, and communities who can advance it — a single index
-            of patents, datasets, tools, and academic work published across the
-            Schmidt ecosystem, each entry with a clear license and a way to
-            reach the people behind it.
           </p>
-
-          <div className="mt-10 flex flex-wrap gap-3">
-            <a
-              href="#portfolio"
-              className="inline-flex items-center gap-2 rounded-sm bg-accent px-5 py-3 text-[14px] font-medium text-ground transition-colors hover:bg-ink"
-            >
-              Browse the portfolio
-              <span aria-hidden>→</span>
-            </a>
-            <a
-              href="#add"
-              className="inline-flex items-center gap-2 rounded-sm border border-rule px-5 py-3 text-[14px] font-medium text-ink transition-colors hover:border-accent hover:text-accent"
-            >
-              Add your Technology
-            </a>
-          </div>
+          <h1 className="font-serif font-normal text-5xl md:text-6xl text-ink leading-[1.05] tracking-[-0.02em] mb-6">
+            Sharing Innovation.
+            <br />
+            Maximising Impact.
+          </h1>
+          <p className="text-lg text-muted leading-relaxed max-w-2xl mx-auto mb-10">
+            The Schmidt Hub connects world-class research with the institutions,
+            entrepreneurs, and communities who can advance it. Explore what is
+            available, or submit your own IP through a transparent, open
+            platform.
+          </p>
         </div>
 
-        {/* Explore / Participate paired cards */}
-        <div className="grid content-start gap-4">
-          <PathCard
-            eyebrow="For discoverers"
-            heading="Explore"
-            body="Filter across five entry types and six subject areas. Every entry names its license, its contact, and what you get on download."
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+          <HeroCard
+            Icon={BarChart2}
+            title="Explore"
+            body="Browse patents, datasets, tools, and academic work across the Schmidt ecosystem. Filter by subject, entity, or license."
             cta="Browse the portfolio"
             href="#portfolio"
           />
-          <PathCard
-            eyebrow="For inventors"
-            heading="Participate"
-            body="Add a patent, dataset, tool, protocol, or creative work. Draft privately, submit for review, and choose the license the world sees."
+          <HeroCard
+            Icon={Zap}
+            title="Participate"
+            body="Submit your own IP through a simple, transparent workflow. Draft privately, submit for review, and pick the license the world sees."
             cta="Get started"
             href="#add"
+          />
+          <HeroCard
+            Icon={Shield}
+            title="License IP"
+            body="Every entry ships with a clear license — Open Research, CC BY 4.0, MIT, Apache 2.0, or Commercial terms — chosen by the inventor."
+            cta="Compare license types"
+            href="#licensing"
           />
         </div>
       </div>
@@ -85,15 +71,15 @@ function Hero() {
   );
 }
 
-function PathCard({
-  eyebrow,
-  heading,
+function HeroCard({
+  Icon,
+  title,
   body,
   cta,
   href,
 }: {
-  eyebrow: string;
-  heading: string;
+  Icon: React.ComponentType<{ size?: number; className?: string }>;
+  title: string;
   body: string;
   cta: string;
   href: string;
@@ -101,285 +87,274 @@ function PathCard({
   return (
     <a
       href={href}
-      className="group relative block border border-rule bg-panel p-6 transition-colors hover:border-accent"
+      className="group w-full flex flex-col items-start text-left bg-white border border-border hover:border-gray-400 text-ink rounded p-5 transition-colors"
     >
-      <div className="eyebrow">{eyebrow}</div>
-      <h3 className="mt-3 font-serif text-[26px] font-medium tracking-tight text-ink">
-        {heading}
-      </h3>
-      <p className="mt-2 text-[14px] leading-relaxed text-ink-2">
-        {body}
-      </p>
-      <div className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-accent">
-        {cta}
-        <span
-          aria-hidden
-          className="transition-transform group-hover:translate-x-0.5"
-        >
-          →
-        </span>
-      </div>
+      <Icon size={16} className="mb-4 text-muted/60" />
+      <h2 className="font-serif font-normal text-xl mb-2">{title}</h2>
+      <p className="text-sm text-muted leading-relaxed mb-3">{body}</p>
+      <span className="text-sm font-medium text-ink inline-flex items-center gap-1.5 mt-auto">
+        {cta} <span aria-hidden>→</span>
+      </span>
     </a>
   );
 }
 
-/* ─────────────────────── License band ─────────────────── */
-
-function LicenseBand() {
-  return (
-    <section id="licensing" className="border-b border-rule">
-      <div className="mx-auto max-w-[1240px] px-6 py-24">
-        <div className="grid gap-12 md:grid-cols-[1fr_2fr]">
-          <div>
-            <div className="eyebrow flex items-center gap-3">
-              <span className="h-px w-6 bg-muted" /> License IP
-            </div>
-            <h2 className="mt-6 max-w-[16ch] font-serif text-[38px] font-medium leading-tight tracking-tight text-ink text-balance">
-              Every entry has a clear license.
-            </h2>
-            <p className="mt-4 max-w-[38ch] text-[15px] leading-relaxed text-ink-2">
-              Three families, plus custom terms for cases that don&rsquo;t fit
-              — chosen by the inventor when they submit, shown to the reader
-              before they download.
-            </p>
-            <a
-              href="#compare"
-              className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-accent hover:text-ink"
-            >
-              Compare license types
-              <span aria-hidden>→</span>
-            </a>
-          </div>
-
-          <div className="grid gap-0 border border-rule bg-panel">
-            {LICENSE_TYPES.map((l, i) => (
-              <div
-                key={l.id}
-                className={
-                  "grid grid-cols-[auto_1fr] gap-6 px-6 py-6 " +
-                  (i < LICENSE_TYPES.length - 1
-                    ? "border-b border-rule-soft "
-                    : "")
-                }
-              >
-                <div className="pt-1">
-                  <div className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-accent">
-                    {l.tag}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="font-serif text-[20px] font-medium text-ink">
-                    {l.name}
-                  </h3>
-                  <p className="mt-1 text-[14px] leading-relaxed text-ink-2">
-                    {l.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────────── Featured entries ─────────────── */
+/* ────────────────────── Featured entries ──────────────────── */
 
 function FeaturedEntries() {
   return (
-    <section id="portfolio" className="border-b border-rule">
-      <div className="mx-auto max-w-[1240px] px-6 py-24">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <div>
-            <div className="eyebrow flex items-center gap-3">
-              <span className="h-px w-6 bg-muted" />
-              Featured IP entries
-            </div>
-            <h2 className="mt-4 font-serif text-[36px] font-medium leading-tight tracking-tight text-ink text-balance">
-              Recently added and highly accessed.
-            </h2>
-          </div>
-          <a
-            href="#portfolio"
-            className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent hover:text-ink"
-          >
-            Browse all →
-          </a>
+    <section id="portfolio" className="py-20 px-6 max-w-7xl mx-auto">
+      <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
+        <div>
+          <h2 className="font-serif font-normal text-3xl text-ink tracking-[-0.02em] leading-tight">
+            Featured IP entries
+          </h2>
+          <p className="text-sm text-muted/60 mt-1 font-mono">
+            Recently added and highly accessed
+          </p>
         </div>
-
-        {/* Filter tabs (visual only for the pitch) */}
-        <div className="mt-10 flex flex-wrap gap-1 border-b border-rule-soft">
-          {ENTRY_TYPES.map((t, i) => (
-            <button
-              key={t}
-              className={
-                "px-4 py-3 text-[13px] font-medium transition-colors " +
-                (i === 0
-                  ? "border-b-2 border-accent text-ink"
-                  : "text-muted hover:text-ink")
-              }
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-
-        <ul className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {ENTRIES.map((e) => (
-            <EntryCard key={e.id} entry={e} />
-          ))}
-        </ul>
+        <a
+          href="#browse-all"
+          className="text-sm underline underline-offset-2 text-muted hover:text-ink transition-colors"
+        >
+          Browse all →
+        </a>
       </div>
+
+      {/* Filter tabs */}
+      <div className="flex flex-wrap gap-2 mb-8">
+        {ENTRY_TYPES.map((t, i) => (
+          <button
+            key={t}
+            type="button"
+            className={
+              "px-3 py-1.5 text-sm rounded transition-colors " +
+              (i === 0
+                ? "bg-ink text-white"
+                : "text-muted hover:text-ink hover:bg-gray-50 border border-border")
+            }
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+
+      <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {ENTRIES.map((e) => (
+          <EntryCard key={e.id} entry={e} />
+        ))}
+      </ul>
     </section>
   );
 }
 
 function EntryCard({ entry }: { entry: (typeof ENTRIES)[number] }) {
   return (
-    <li className="group flex flex-col border border-rule bg-panel p-6 transition-colors hover:border-accent">
-      <div className="flex flex-wrap gap-2">
-        <Chip>{entry.type}</Chip>
-        <Chip subtle>{entry.subject}</Chip>
-      </div>
-      <div className="mt-4 font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-        {entry.org}
-      </div>
-      <h3 className="mt-2 font-serif text-[22px] font-medium leading-snug tracking-tight text-ink text-balance">
-        {entry.title}
-      </h3>
-      <p className="mt-3 text-[14px] leading-relaxed text-ink-2">
-        {entry.description}
-      </p>
-      <ul className="mt-5 flex flex-wrap gap-1.5">
-        {entry.tags.map((t) => (
-          <li
-            key={t}
-            className="rounded-sm bg-accent-soft px-2 py-1 font-mono text-[10.5px] uppercase tracking-[0.08em] text-accent"
-          >
-            {t}
-          </li>
-        ))}
-      </ul>
-      <div className="mt-6 flex items-center justify-between border-t border-rule-soft pt-4 font-mono text-[10.5px] uppercase tracking-[0.1em] text-muted">
-        <span>
-          {entry.docs} doc{entry.docs === 1 ? "" : "s"} · {entry.images} images
-        </span>
-        <span className="num text-muted-2">{entry.id}</span>
-      </div>
+    <li>
+      <a
+        href={`#entry-${entry.id}`}
+        className="group h-full text-left bg-white border border-border hover:border-gray-400 rounded transition-all duration-200 hover:shadow-sm flex flex-col overflow-hidden"
+      >
+        <div className="p-5 flex flex-col gap-3 flex-1">
+          {/* Placeholder image */}
+          <div className="relative w-full h-36 rounded overflow-hidden bg-gray-100 mb-1 shrink-0 border border-gray-200">
+            <svg
+              className="absolute inset-0 w-full h-full text-gray-200"
+              preserveAspectRatio="none"
+              viewBox="0 0 100 100"
+              aria-hidden
+            >
+              <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+              <line x1="100" y1="0" x2="0" y2="100" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+            </svg>
+            <span className="absolute inset-0 flex items-center justify-center text-[10px] font-normal text-muted/60 uppercase tracking-[0.08em] px-2 text-center leading-relaxed">
+              {entry.type}
+            </span>
+            <div className="absolute top-2 left-2 z-10">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium tracking-wide uppercase bg-ink text-white border border-ink">
+                {entry.subject}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center">
+            <span className="text-xs text-muted/60 leading-snug">
+              {entry.org}
+            </span>
+          </div>
+
+          <h3 className="font-serif font-normal text-ink text-xl leading-snug group-hover:text-black transition-colors">
+            {entry.title}
+          </h3>
+
+          <p className="text-sm text-muted leading-relaxed line-clamp-3">
+            {entry.description}
+          </p>
+
+          <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
+            {entry.tags.map((t) => (
+              <span
+                key={t}
+                className="text-[11px] text-muted bg-gray-100 border border-gray-200 px-2 py-0.5 rounded"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-4 pt-2 border-t border-gray-100 mt-1">
+            <span className="flex items-center gap-1 text-xs text-muted/60">
+              <FileText size={12} strokeWidth={2} />
+              {entry.docs} doc{entry.docs === 1 ? "" : "s"}
+            </span>
+            <span className="flex items-center gap-1 text-xs text-muted/60">
+              <ImageIcon size={12} strokeWidth={2} />
+              {entry.images} image{entry.images === 1 ? "" : "s"}
+            </span>
+          </div>
+        </div>
+      </a>
     </li>
   );
 }
 
-function Chip({
-  children,
-  subtle = false,
-}: {
-  children: React.ReactNode;
-  subtle?: boolean;
-}) {
+/* ────────────────────── Licensing options ─────────────────── */
+
+function LicensingOptions() {
   return (
-    <span
-      className={
-        "rounded-sm px-2 py-1 font-mono text-[10.5px] uppercase tracking-[0.1em] " +
-        (subtle
-          ? "border border-rule text-ink-2"
-          : "bg-panel-2 text-accent")
-      }
-    >
-      {children}
-    </span>
+    <section id="licensing" className="py-20 border-t border-border bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <h2 className="font-serif font-normal text-3xl text-ink tracking-[-0.02em] leading-tight mb-3">
+          Licensing options
+        </h2>
+        <p className="text-sm text-muted leading-relaxed mb-4 max-w-3xl">
+          Many entries are published under a clear license:{" "}
+          <strong className="font-semibold text-ink">Open Research License</strong>,{" "}
+          <strong className="font-semibold text-ink">CC BY 4.0</strong>,{" "}
+          <strong className="font-semibold text-ink">MIT</strong>,{" "}
+          <strong className="font-semibold text-ink">Apache 2.0</strong>, or a{" "}
+          <strong className="font-semibold text-ink">Commercial License</strong>.
+          Each defines how the work can be used, shared, and built upon.
+        </p>
+        <a
+          href="#compare"
+          className="text-sm underline underline-offset-2 text-muted hover:text-ink transition-colors"
+        >
+          Compare the license types →
+        </a>
+      </div>
+    </section>
   );
 }
 
-/* ─────────────────────── Founding partners ────────────── */
+/* ────────────────────── Founding partners ─────────────────── */
 
 function FoundingPartners() {
   return (
-    <section id="about" className="border-b border-rule">
-      <div className="mx-auto max-w-[1240px] px-6 py-24">
-        <div className="grid gap-12 md:grid-cols-[1fr_2fr]">
+    <section id="about" className="py-20 border-t border-border bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
           <div>
-            <div className="eyebrow flex items-center gap-3">
-              <span className="h-px w-6 bg-muted" />
+            <h2 className="font-serif font-normal text-3xl text-ink tracking-[-0.02em] leading-tight mb-4">
               Founding Partners
-            </div>
-            <h2 className="mt-6 max-w-[18ch] font-serif text-[38px] font-medium leading-tight tracking-tight text-ink text-balance">
-              Six organisations, one directory.
             </h2>
-            <p className="mt-4 max-w-[38ch] text-[15px] leading-relaxed text-ink-2">
-              Each partner runs its own high-impact research programme, and
-              each publishes here under the same review and licensing
-              standards — so a reader can browse one directory instead of six.
+            <p className="text-muted leading-relaxed max-w-2xl">
+              The organisations behind SHIP — each focused on a distinct
+              domain of high-impact research, and each contributing IP to the
+              platform.
             </p>
-            <a
-              href="#about"
-              className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-accent hover:text-ink"
-            >
-              About SHIP
-              <span aria-hidden>→</span>
-            </a>
           </div>
+          <a
+            href="#about"
+            className="text-sm underline underline-offset-2 text-muted hover:text-ink transition-colors"
+          >
+            About SHIP →
+          </a>
+        </div>
 
-          <ul className="grid gap-0 border border-rule bg-panel sm:grid-cols-2">
-            {PARTNERS.map((p, i) => (
-              <li
-                key={p.id}
-                className={
-                  "flex gap-4 p-6 " +
-                  (i % 2 === 0 ? "sm:border-r sm:border-rule-soft " : "") +
-                  (i < PARTNERS.length - 2 ? "border-b border-rule-soft " : "sm:border-b-0 border-b border-rule-soft last:border-b-0")
-                }
-              >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center border border-rule bg-panel-2 font-serif text-[15px] font-medium tracking-tight text-accent">
-                  {p.initials}
-                </div>
-                <div>
-                  <h3 className="font-serif text-[17px] font-medium text-ink">
-                    {p.name}
-                  </h3>
-                  <p className="mt-1 text-[13px] leading-relaxed text-ink-2">
-                    {p.blurb}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
+        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-6 px-6">
+          {PARTNERS.map((p) => (
+            <PartnerCard key={p.id} partner={p} />
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-/* ─────────────────────────── CTA ──────────────────────── */
-
-function CtaBand() {
+function PartnerCard({ partner }: { partner: (typeof PARTNERS)[number] }) {
   return (
-    <section className="border-b border-rule">
-      <div className="mx-auto max-w-[1240px] px-6 py-24 text-center">
-        <div className="eyebrow flex items-center justify-center gap-3">
-          <span className="h-px w-6 bg-muted" />
-          Ready to participate?
-          <span className="h-px w-6 bg-muted" />
+    <a
+      href={`#partner-${partner.id}`}
+      className="group relative snap-start shrink-0 w-72 bg-white border border-border rounded overflow-hidden hover:border-gray-400 transition-colors text-left cursor-pointer"
+    >
+      <div className="h-full p-6 flex flex-col items-start justify-between gap-4">
+        <div className="bg-gray-100 border border-gray-200 flex items-center justify-center relative overflow-hidden w-full aspect-video rounded">
+          <svg
+            className="absolute inset-0 w-full h-full text-gray-200"
+            preserveAspectRatio="none"
+            viewBox="0 0 100 100"
+            aria-hidden
+          >
+            <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+            <line x1="100" y1="0" x2="0" y2="100" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+          </svg>
+          <span className="relative text-[10px] font-normal text-muted/60 uppercase tracking-[0.08em] px-2 text-center leading-relaxed">
+            {partner.name} logo
+          </span>
         </div>
-        <h2 className="mt-6 font-serif text-[44px] font-medium leading-tight tracking-tight text-ink text-balance md:text-[56px]">
-          Join our community.
-        </h2>
-        <p className="mx-auto mt-4 max-w-[54ch] text-[16px] leading-relaxed text-ink-2">
-          Share your intellectual property, discover groundbreaking
-          technologies, and reach a worldwide network of institutions,
-          entrepreneurs, and researchers who can move it forward.
-        </p>
-        <div className="mt-10 flex flex-wrap justify-center gap-3">
+        <h3 className="font-serif font-normal text-xl text-ink leading-snug">
+          {partner.name}
+        </h3>
+      </div>
+
+      {/* Hover overlay with blurb */}
+      <div className="absolute inset-0 bg-white p-6 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+        <div>
+          <h3 className="font-serif font-normal text-xl text-ink leading-snug">
+            {partner.name}
+          </h3>
+          <p className="text-sm text-muted leading-relaxed mt-3">
+            {partner.blurb}
+          </p>
+        </div>
+        <span className="text-sm font-medium text-ink inline-flex items-center gap-1.5">
+          View more <span aria-hidden>→</span>
+        </span>
+      </div>
+    </a>
+  );
+}
+
+/* ───────────────────────── CTA band ───────────────────────── */
+
+function JoinCommunity() {
+  return (
+    <section className="border-t border-border bg-white">
+      <div className="max-w-7xl mx-auto px-6 py-20 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+        <div>
+          <p className="text-xs font-normal text-muted/60 uppercase tracking-[0.08em] mb-3">
+            Ready to participate?
+          </p>
+          <h2 className="font-serif font-normal text-3xl text-ink tracking-[-0.02em] leading-tight mb-3">
+            Join our Community
+          </h2>
+          <p className="text-muted text-sm leading-relaxed max-w-xl">
+            Share your intellectual property, discover groundbreaking
+            technologies, and join a worldwide network of technologists working
+            for good.
+          </p>
+        </div>
+        <div className="flex flex-col gap-3 shrink-0">
           <a
             href="#add"
-            className="inline-flex items-center gap-2 rounded-sm bg-accent px-5 py-3 text-[14px] font-medium text-ground transition-colors hover:bg-ink"
+            className="bg-ink hover:bg-ink-hover text-white px-7 py-3 rounded text-sm font-semibold transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
           >
-            Add your Technology
+            Add your Technology <ArrowRight size={14} strokeWidth={2} />
           </a>
           <a
             href="#portfolio"
-            className="inline-flex items-center gap-2 rounded-sm border border-rule px-5 py-3 text-[14px] font-medium text-ink transition-colors hover:border-accent hover:text-accent"
+            className="text-sm underline underline-offset-2 text-muted hover:text-ink transition-colors text-center"
           >
             Browse the portfolio →
           </a>

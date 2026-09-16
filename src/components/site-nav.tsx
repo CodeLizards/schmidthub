@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Menu } from "lucide-react";
 
 const NAV_LINKS = [
   { label: "About SHIP", href: "#about" },
@@ -9,44 +9,56 @@ const NAV_LINKS = [
 
 export function SiteNav() {
   return (
-    <header className="sticky top-0 z-40 border-b border-rule bg-ground/85 backdrop-blur supports-[backdrop-filter]:bg-ground/70">
-      <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-6 px-6 py-4">
-        <Link
+    <header className="sticky top-0 z-40 border-b border-border bg-white/95 backdrop-blur">
+      <nav className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between gap-8">
+        {/* Logo */}
+        <a
           href="/"
-          className="group flex items-baseline gap-0.5 font-serif text-[22px] tracking-tight text-ink"
+          className="shrink-0 font-serif font-normal text-lg tracking-[-0.02em] text-ink"
         >
-          <span className="font-medium">schmidt</span>
-          <span className="font-medium text-accent">hub</span>
-          <span className="text-muted">.org</span>
-        </Link>
+          schmidt
+          <span className="text-muted/60">hub</span>
+          <span className="text-gray-300">.org</span>
+        </a>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        {/* Primary nav */}
+        <div className="hidden md:flex items-center gap-1">
           {NAV_LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-[13.5px] text-ink-2 transition-colors hover:text-accent"
+              className="px-3 py-1.5 text-sm rounded transition-colors text-muted hover:text-ink hover:bg-gray-50"
             >
               {l.label}
             </a>
           ))}
-        </nav>
+        </div>
 
-        <div className="flex items-center gap-3">
+        {/* Sign in / CTA */}
+        <div className="hidden md:flex items-center gap-3">
           <a
             href="#signin"
-            className="hidden text-[13.5px] text-ink-2 transition-colors hover:text-accent sm:inline"
+            className="text-sm text-muted hover:text-ink px-4 py-1.5 rounded transition-colors font-medium whitespace-nowrap"
           >
             Sign in
           </a>
           <a
             href="#add"
-            className="inline-flex items-center gap-2 rounded-sm bg-accent px-4 py-2 text-[13px] font-medium text-ground transition-colors hover:bg-ink"
+            className="text-sm bg-ink hover:bg-ink-hover text-white px-4 py-1.5 rounded transition-colors font-medium whitespace-nowrap"
           >
             Add your Technology
           </a>
         </div>
-      </div>
+
+        {/* Mobile menu icon */}
+        <button
+          type="button"
+          aria-label="Open menu"
+          className="md:hidden text-muted hover:text-ink"
+        >
+          <Menu size={20} strokeWidth={2} />
+        </button>
+      </nav>
     </header>
   );
 }
