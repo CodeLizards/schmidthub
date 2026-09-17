@@ -14,10 +14,6 @@ const PLANNED_PAGES: Record<string, string> = {
   "resources/reviewer-checklist": "Reviewer checklist",
   "resources/licenses": "License comparison",
   "resources/pilot-guide": "Pilot user guide",
-  "learning-hub/what-is-intellectual-property-": "What is intellectual property?",
-  "learning-hub/which-license-should-i-use-": "Which license should I use?",
-  "learning-hub/preparing-an-ip-submission": "Preparing an IP submission",
-  "learning-hub/how-the-review-process-works": "How the review process works",
 };
 
 export const dynamicParams = false;

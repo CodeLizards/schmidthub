@@ -1,9 +1,15 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { SiteNav } from "@/components/site/nav";
 
+vi.mock("next/navigation", () => ({ usePathname: () => "/learning-hub" }));
+
 describe("Mobile navigation", () => {
+  it("marks the learning hub as the active tab", () => {
+    render(<SiteNav />);
+    expect(screen.getByRole("link", { name: "IP Learning Hub" })).toHaveAttribute("aria-current", "page");
+  });
   it("opens with the keyboard and Escape restores focus to the toggle", async () => {
     const user = userEvent.setup();
     render(<SiteNav />);

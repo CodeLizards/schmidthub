@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ const NAV_LINKS = [
 ];
 
 export function SiteNav() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
   return (
@@ -37,7 +39,8 @@ export function SiteNav() {
             <Link
               key={l.href}
               href={l.href}
-              className="px-3 py-1.5 text-sm rounded transition-colors text-muted hover:text-ink hover:bg-gray-50"
+              aria-current={pathname === l.href || (l.href === "/learning-hub" && (pathname.startsWith("/topics/") || pathname.startsWith("/insights/") || pathname === "/licensing")) ? "page" : undefined}
+              className={`px-3 py-1.5 text-sm rounded transition-colors hover:text-ink hover:bg-gray-50 ${pathname === l.href || (l.href === "/learning-hub" && (pathname.startsWith("/topics/") || pathname.startsWith("/insights/") || pathname === "/licensing")) ? "bg-[#edf0f6] text-ink" : "text-muted"}`}
             >
               {l.label}
             </Link>
@@ -71,7 +74,7 @@ export function SiteNav() {
       {open && (
         <nav id="mobile-navigation" aria-label="Mobile navigation" className="lg:hidden border-t border-border bg-white px-6 py-4">
           {[...NAV_LINKS, { label: "Sign in", href: "/sign-in" }, { label: "Add your Technology", href: "/submit" }].map((link) => (
-            <Link key={link.href} href={link.href} onClick={() => setOpen(false)} className="block rounded px-3 py-3 text-sm text-ink hover:bg-panel">
+            <Link key={link.href} href={link.href} aria-current={pathname === link.href ? "page" : undefined} onClick={() => setOpen(false)} className="block rounded px-3 py-3 text-sm text-ink hover:bg-panel">
               {link.label}
             </Link>
           ))}
