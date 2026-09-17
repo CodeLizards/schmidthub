@@ -1,6 +1,8 @@
 # SHIP backend architecture proposal
 
-Date: 2026-09-16. Status: proposed, not implemented.
+Date: 2026-09-16; pilot clarifications added 2026-09-17. Status: proposed, not implemented.
+
+For the one-developer, 5–6-user real-data pilot, see the [10-week proposal](10-week-preview-proposal.md) and [scope matrix](preview-scope-matrix.md). These add a delivery target and distinguish the stable pilot from automated preview deployments.
 
 ## Authority and starting point
 
@@ -134,8 +136,12 @@ its version. Submission validates the draft, copies it into a new immutable
 for changes or a published edit starts a new draft from that snapshot; it never
 rewrites a revision under review or already published.
 
-The wizard records licensing goals, not a final legal grant. A license version
-therefore need not be required on every draft or submission. Before a
+The wizard records licensing goals and a preferred-license choice, not a final
+legal grant. The 2026-09-17 walkthrough shows seven choices: Open Research License,
+Apache 2.0, MIT, CC BY 4.0, Commercial License, Full IP Assignment, and Custom
+License Agreement. Preserve the preference on drafts and immutable submitted
+revisions; model assignment separately from a license grant. A final approved
+license version need not be required on every draft or submission. Before a
 SHIP-managed download or grant is published, the authorized legal/publication
 step binds the approved revision to an immutable `LicenseVersion` (or explicitly
 models multiple versioned offerings if the product requires them). Acceptance
@@ -272,17 +278,27 @@ transfer; a signed URL alone does not prove a download completed.
 Use the outbox for notification fan-out, email, scanning, external verification,
 imports and reminders. Claim jobs with leases, bound retries with backoff, maintain
 dead-letter inspection, and use event IDs for idempotent handling. Batch imports
-validate first and show per-row errors before commit. One-time tokens are hashed,
-scoped, expiring and atomically consumed; retrying a completed submission must not
-create a second entry.
+validate first and show per-row errors before commit. The wireframe accepts
+CSV/XLSX or ZIP attachments and creates drafts only; imports do not publish
+automatically. Agree a deterministic ZIP-to-row association before implementation.
+One-time tokens are hashed,
+scoped, expiring and atomically consumed on successful submission, not initial
+link opening. The invitation screen specifies 30-day expiry and an in-flow
+recipient agreement; confirm agreement and submitter-approval semantics.
+Retrying a completed submission must not create a second entry.
 
 ## Operations and reporting
 
-Keep development, preview and production databases and buckets separate. Seed
-only synthetic/wireframe fixtures with explicit demo labeling. Migrations run as
-a release step with backup/restore rehearsal; use expand/backfill/contract changes
+Keep development, preview and production databases and buckets separate.
+Automated test and PR-preview environments use only synthetic/wireframe fixtures
+with explicit demo labeling. The stable, access-restricted pilot uses real
+owner-approved records with provenance, file rights and contact consent; keep
+exercise records separate and never overwrite real user activity with seed tooling.
+Migrations run as a release step with backup/restore rehearsal; use expand/backfill/contract changes
 and compatible application rollback. Configure connection pooling and explicit
-request/job timeouts. Preview builds must not send real email.
+request/job timeouts. Automated preview builds must not send real email.
+The stable pilot may deliver workflow email only to its approved test-recipient
+allowlist.
 
 Log request IDs and state transitions, not tokens, email bodies, uploaded content
 or private notes. Monitor API failures, denied access, queue age, scanning failures,

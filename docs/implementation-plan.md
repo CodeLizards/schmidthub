@@ -2,6 +2,14 @@
 
 2026-09-16 · Proposed delivery sequence, not a fixed-date commitment.
 
+2026-09-17 follow-up: the [10-week preview proposal](10-week-preview-proposal.md)
+adds the requested one-developer schedule, owner-approved real seed data,
+test-user-only access and weekly acceptance gates. Use that document for the
+current pilot proposal; the phases below remain the broader implementation
+reference. Synthetic-only pilot and no-real-email wording below reflects the
+earlier POC plan and is superseded by the explicit environment rules in the
+new proposal.
+
 Product authority: [v5 wireframes](https://ship-wireframes-v5.netlify.app/).
 Technical proposal: [backend architecture](backend-architecture.md).
 All work belongs in `schmidthub`. IPLicensing is excluded. The old twelve-week

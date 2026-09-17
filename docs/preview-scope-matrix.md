@@ -1,0 +1,45 @@
+# SHIP preview scope and acceptance matrix
+
+17 September 2026 · Companion to the [10-week proposal](10-week-preview-proposal.md).
+
+This is a workflow-family inventory, not a claim that every wireframe field/modal has been audited. Week one expands each row into individual screens, fields, actions, policies and tests. All rows below are proposed pilot scope; fallback reductions require project-owner agreement.
+
+**Evidence key:** F = code inspected; W = wireframe screen inspected during this planning review; P = public wireframe inspected in the preceding implementation work; M = exposed in a wireframe menu, details still to inventory.
+
+| ID | Wireframe surface / evidence | Current implementation | Required pilot behavior | Target / acceptance scenario |
+| --- | --- | --- | --- | --- |
+| P01 | Home, About, partners / F, W, P | Reusable public presentation, fixtures/placeholders | Approved copy, organizations, featured published IP and working destinations; all behind pilot access gate | W6: featured and portfolio data reconcile; signed-out/uninvited internet visitors cannot access pilot content |
+| P02 | Portfolio and IP detail / F, P | 12 fixture entries; static allowlist of detail paths; local filters | Database-backed filters, sort, pagination, facets, detail, attachments, gallery and related records | W6: newly published ID resolves without rebuild; withdrawn/private records excluded from public projection and protected on direct access |
+| P03 | Learning Hub, articles, glossary, Resources / F, P | Six learning fixtures, 19 resource fixtures, topic/glossary pages; unavailable resource actions | Approved article/detail content, search/filter, actual authorized files or official links, versioned asset metadata | W6: every accepted content row opens its intended content; file availability and displayed metadata are real |
+| P04 | Sign-in, interest request and participation / F, W | Form shells and unavailable controls | Real managed identity/recovery; interest request storage and approval; individual accounts and invitation scope | W2/W6: approved user signs in; uninvited user denied; no fake successful form submissions |
+| S01 | Submitter overview and My Submissions / W, F | Dashboard placeholder | Owner-scoped state counts/list, drafts, pending work, archive/history and real activity | W4: counts reconcile; another user's draft cannot be retrieved by URL or API |
+| S02 | Two-step single submission / W | Not implemented; `/submit` is a landing page | Five types, title/date/subject/abstract/description, conditional external sources, uploads, goals, seven preferred-term choices, notes, contributors/affiliation/contact/visibility | W3: validated draft survives reload; stale write rejected; submitted snapshot immutable; exact conditional fields inventoried in W1 |
+| S03 | Attachments, supporting files and gallery / W, F | File labels and gallery placeholders | Private direct upload, validation/quarantine/scan, authorized display/download, retry/abort and cleanup; preserve 500 MB specification | W3/W6: boundary-size upload bypasses web body; blocked scan and unrelated user receive no file |
+| R01 | Technical overview/queue/detail / W | Not implemented | Assignment/scope, approve-to-legal, return-with-reason, information requests and revision-aware resubmission | W4: distinct actors complete review; stale/duplicate/forged decision has no unintended transition |
+| R02 | Legal overview/queue/detail / W | Not implemented | Exact approved terms, publication decision and request-info; agreed return/reinstatement semantics | W5: no direct publication from technical review; license preference never silently becomes approved terms |
+| R03 | External-public routing / W | Explanatory UI only | Verified authority/source relationship plus public-source/no-SHIP-transaction rule; failed check routes to review | W5: eligible controlled example takes fast path with evidence; untrusted URL or private-network target does not |
+| L01 | License, download and owner-contact journey / F, P | Unavailable controls/terms | Approved versioned terms, eligible acceptance/download grants, inquiry threads; explicit commercial/assignment/custom handling | W6: acceptance ties to exact entry and terms; no automatic commercial agreement; contact details remain permission-controlled |
+| C01 | Inbox, notifications, reminders / W, M | Not implemented | Participant-scoped threads, send/read state, retryable notifications, pilot-recipient email allowlist | W4/W6: sender/recipient reload see persisted message; unrelated actor denied; repeated job produces no duplicate logical notification |
+| A01 | Org Admin, team, programs, portfolio, settings / W, M | Not implemented | Org-scoped approvals, invitations, members/role changes, program creation/management, settings and real portfolio counts | W7: last-admin protection; no out-of-org mutation; default license setting affects new preferences only, not historic terms |
+| A02 | Program Admin and team/settings / W, M | Not implemented | Program-scoped team/settings/submissions, unpublish/takedown and notifications | W7: sibling program denied; takedown audited, submitter notified, access withdrawn within agreed policy |
+| A03 | Super Admin, organizations/users/moderation/audit/settings / W, M | Not implemented | Explicit platform authority, disable/revoke, moderation reasons, audited settings and paginated audit queries | W7: no privilege escalation from request fields; sensitive changes trace to a verified actor |
+| A04 | Profile and Account Settings / W, M, F | Some form shells only | Persist actual profile/preferences, supported recovery/security actions and session sign-out | W6: reload persists settings; disabling account revokes access; each exposed control has a defined effect |
+| A05 | Dashboard benchmarks / W | Wireframe-style sample totals only | Product-defined licensing/turnaround/return/download measures from real events; no fabricated history | W7/W9: denominator/date window is documented; counts reproducible; exercise events excluded; insufficient data shown honestly |
+| B01 | Batch upload / W | Not implemented | CSV/XLSX/ZIP, documented mapping, row errors, resumable jobs, replay safety, drafts under My Submissions | W8: malformed rows flagged; valid import yields drafts once; nothing auto-publishes on import; ZIP association confirmed in W1 |
+| G01 | One-time invite management and guest submission / W | Generic preview destination | 30-day expiry, tracking, agreement/publication approval, narrow guest session, bounded access, ownership and redemption | W8: valid guest submits once to inviting org; expired/reused token fails; opening an email link does not consume it; email scanners do not falsely mark completion |
+| O01 | Contact, policy/legal content, footer / F, P | Planned/unavailable destinations | Owner-approved content and functioning accepted contact workflow; safe external links | W6/W9: no generic preview destination or inaccurate legal claim on an accepted journey |
+| O02 | Operational pilot / F | Local build/test scripts; no application infrastructure | Access-restricted host, CI, private database/bucket, worker, backups, monitoring, mail isolation and runbooks | W2/W9/W10: uninvited access denied; restore database and file; rollback/restart rehearsed; operator identified |
+
+## Cross-cutting decisions that must be recorded
+
+- **Real data/access:** project owners are assembling and approving the IP list. Access is limited to test users. No current confidentiality issues were reported; ownership, file rights and contact approval still travel with the records.
+- **Role assignment:** scope is a server-side grant, not the role selected in a prototype. The wireframe's overlapping roles do not automatically authorize self-review.
+- **Private visibility:** agree the difference between not indexed and not accessible. Proposed pilot policy denies unrelated users direct access to private material.
+- **Guest agreement:** the invitation and orientation copy promise agreement and submitter approval; capture version, actor identity and timestamp. Decide whether an additional post-review approval is necessary. Do not infer a formal e-signature product requirement from copy alone.
+- **Custom terms and assignment:** represent as distinct choices/workflows; an ordinary download checkbox cannot transfer full ownership.
+- **Batch imports:** preserve draft-only import semantics even when a later individual submission could qualify for external-public routing.
+- **Metrics:** “download grant issued” is not “file fully transferred”; “commercial inquiry” is not “license executed.” A pilot can have zero/undefined rates.
+
+## Week-one expansion format
+
+For each action, capture: wireframe label and screenshot/reference, screen/role, input fields and constraints, service command/query, allowed scope, state transition, persisted records, validation/failure/empty states, notification effect, acceptance test, owner, and decision status. Record differences between prototype behavior and proposed operational behavior explicitly.
