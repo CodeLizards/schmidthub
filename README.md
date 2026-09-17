@@ -38,7 +38,18 @@ serif display stack. No backend or new production dependencies have been added.
 
 ## Architecture and delivery
 
-- [Backend architecture](docs/backend-architecture.md): fresh proposal, domain
+- [Revised 10-week demo plan](docs/10-week-demo-plan.md): latest demo-first
+  recommendation for one engineer using Codex and 5–6 testers; complete feature
+  disposition, weekly budgets, proposed cuts, acceptance gates and phase-2 work.
+- [Demo architecture](docs/demo-architecture.md): React/Next.js presentation,
+  NestJS API, PostgreSQL and Alembic migration ownership.
+- [Codebase and plan audit](docs/demo-codebase-audit.md): evidence, reuse decisions,
+  confirmed gaps/defects and verification results.
+
+Earlier planning references are preserved below; where they differ, the revised
+demo plan states the recommendation for the latest seeded-demo brief.
+
+- [Backend architecture](docs/backend-architecture.md): earlier proposal, domain
   model, role boundaries, workflow, API, files, operations, and open decisions.
 - [Implementation plan](docs/implementation-plan.md): full wireframe scope,
   staged delivery, acceptance gates, and first implementation backlog.
