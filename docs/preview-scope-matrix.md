@@ -2,6 +2,8 @@
 
 17 September 2026 · Companion to the [10-week proposal](10-week-preview-proposal.md).
 
+The [step-by-step feature checklist](10-week-preview-proposal.md#step-by-step-feature-implementation-checklist) expands these areas into ordered implementation tasks.
+
 This is a workflow-family inventory, not a claim that every wireframe field/modal has been audited. Week one expands each row into individual screens, fields, actions, policies and tests. All rows below are proposed pilot scope; fallback reductions require project-owner agreement.
 
 **Evidence key:** F = code inspected; W = wireframe screen inspected during this planning review; P = public wireframe inspected in the preceding implementation work; M = exposed in a wireframe menu, details still to inventory.

@@ -5,7 +5,7 @@
 2026-09-17 follow-up: the [10-week preview proposal](10-week-preview-proposal.md)
 adds the requested one-developer schedule, owner-approved real seed data,
 test-user-only access and weekly acceptance gates. Use that document for the
-current pilot proposal; the phases below remain the broader implementation
+current pilot proposal and its [feature checklists](10-week-preview-proposal.md#step-by-step-feature-implementation-checklist); the phases below remain the broader implementation
 reference. Synthetic-only pilot and no-real-email wording below reflects the
 earlier POC plan and is superseded by the explicit environment rules in the
 new proposal.
