@@ -42,9 +42,9 @@ export default function GlossaryPage() {
       <h1 className="font-serif text-5xl md:text-6xl mb-6">IP Glossary</h1>
       <p className="text-lg leading-relaxed text-muted max-w-2xl mb-14">The legal terms you&apos;ll meet across the platform — what they mean, how long they last, and what they oblige you to do.</p>
       <GlossaryTabs />
-      <div className="space-y-16 pt-16">{SECTIONS.map(({ id, title, terms }) => <section id={id} key={id} className="grid md:grid-cols-[40%_1fr] gap-8" aria-labelledby={`${id}-title`}>
+      <div className="space-y-16 pt-16">{SECTIONS.map(({ id, title, terms }) => <section id={id} key={id} className="scroll-mt-28 grid md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-8" aria-labelledby={`${id}-title`}>
         <h2 id={`${id}-title`} className="font-serif text-3xl">{title}</h2>
-        <div className="space-y-4">{terms.map(([term, description]) => <article key={term} id={termId(term)} className="rounded border border-border bg-white p-6"><h3 className="font-serif text-xl mb-3">{term}</h3><p className="text-sm leading-relaxed text-muted">{description}</p></article>)}</div>
+        <div className="space-y-4">{terms.map(([term, description]) => <article key={term} id={termId(term)} className="scroll-mt-28 rounded border border-border bg-white p-6"><h3 className="font-serif text-xl mb-3">{term}</h3><p className="text-sm leading-relaxed text-muted">{description}</p></article>)}</div>
       </section>)}</div>
     </div>
     <JoinCommunity />

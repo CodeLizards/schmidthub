@@ -8,7 +8,7 @@ import { LEARNING_RESOURCES, type LearningResource } from "@/lib/learning";
 
 const TOPICS = [
   { title: "What is IP?", description: "Patents, copyright, trade secrets, and trademarks — what each protects and for how long.", count: "4 types", href: "/topics/what-is-ip", Icon: Award },
-  { title: "Licensing options", description: "From fully open to negotiated commercial terms, and how to choose between them.", count: "5 licenses", href: "/licensing", Icon: LockKeyhole },
+  { title: "Licensing options", description: "From fully open to negotiated commercial terms, and how to choose between them.", count: "5 licenses", href: "/topics/licensing", Icon: LockKeyhole },
   { title: "IP Glossary", description: "Every legal term you will meet on the platform, defined in plain language.", count: "15 terms", href: "/glossary", Icon: FileText },
 ];
 

@@ -39,8 +39,8 @@ export function SiteNav() {
             <Link
               key={l.href}
               href={l.href}
-              aria-current={pathname === l.href || (l.href === "/learning-hub" && (pathname.startsWith("/topics/") || pathname.startsWith("/insights/") || pathname === "/licensing")) ? "page" : undefined}
-              className={`px-3 py-1.5 text-sm rounded transition-colors hover:text-ink hover:bg-gray-50 ${pathname === l.href || (l.href === "/learning-hub" && (pathname.startsWith("/topics/") || pathname.startsWith("/insights/") || pathname === "/licensing")) ? "bg-[#edf0f6] text-ink" : "text-muted"}`}
+              aria-current={pathname === l.href ? "page" : undefined}
+              className={`px-3 py-1.5 text-sm rounded transition-colors hover:text-ink hover:bg-gray-50 ${pathname === l.href ? "bg-[#edf0f6] text-ink" : "text-muted"}`}
             >
               {l.label}
             </Link>
