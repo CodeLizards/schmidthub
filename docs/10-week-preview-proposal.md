@@ -1,10 +1,9 @@
 # SHIP: 10-week functional preview proposal
 
-**Prepared:** 17 September 2026  
 **Status:** Proposal for review; implementation and frontend development remain paused.  
-**Capacity:** One full-time developer working with Codex, as requested.  
+**Capacity:** One full-time developer working with Codex.  
 **Audience:** 5–6 invited pilot users.  
-**Product authority:** [v5 wireframes](https://ship-wireframes-v5.netlify.app/). Build in `schmidthub`; IPLicensing is excluded.
+**Product authority:** [v5 wireframes](https://ship-wireframes-v5.netlify.app/). Build in `schmidthub`;
 
 ## Recommendation
 
