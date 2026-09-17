@@ -51,14 +51,33 @@ function FilterSection({
   );
 }
 
-export function PortfolioCatalog() {
+export function PortfolioCatalog({
+  initialLicenses = [],
+  initialLicenseGroup = "",
+}: {
+  initialLicenses?: readonly string[];
+  initialLicenseGroup?: string;
+}) {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<"newest" | "az">("newest");
   const [view, setView] = useState<"grid" | "list">("grid");
   const [subjects, setSubjects] = useState<Set<string>>(new Set());
   const [entities, setEntities] = useState<Set<string>>(new Set());
-  const [licenses, setLicenses] = useState<Set<string>>(new Set());
+  const [licenses, setLicenses] = useState<Set<string>>(() => new Set(initialLicenses));
   const [tags, setTags] = useState<Set<string>>(new Set());
+
+  const toggleLicense = (value: string) => {
+    const next = new Set(licenses);
+    if (next.has(value)) next.delete(value);
+    else next.add(value);
+    const params = new URLSearchParams();
+    const currentGroup = new URLSearchParams(window.location.search).get("licenseGroup");
+    if (currentGroup && currentGroup === initialLicenseGroup) params.set("licenseGroup", currentGroup);
+    if (next.size === 0 && currentGroup === initialLicenseGroup && currentGroup) params.set("license", "");
+    else for (const license of next) params.append("license", license);
+    window.history.replaceState(null, "", `/portfolio${params.size ? `?${params}` : ""}`);
+    setLicenses(next);
+  };
 
   const filtered = useMemo(() => {
     const term = query.trim().toLocaleLowerCase();
@@ -76,6 +95,7 @@ export function PortfolioCatalog() {
 
   const hasFilters = Boolean(query.trim() || subjects.size || entities.size || licenses.size || tags.size);
   const clearFilters = () => {
+    if (initialLicenseGroup) window.history.replaceState(null, "", "/portfolio");
     setQuery("");
     setSubjects(new Set());
     setEntities(new Set());
@@ -126,7 +146,7 @@ export function PortfolioCatalog() {
               <p className="text-xs font-mono uppercase tracking-[0.08em] text-muted mb-1">Filter by</p>
               <FilterSection title="Subject Matter" values={SUBJECTS} selected={subjects} onToggle={(value) => toggleSelection(value, subjects, setSubjects)} />
               <FilterSection title="Entity" values={ENTITIES} selected={entities} onToggle={(value) => toggleSelection(value, entities, setEntities)} />
-              <FilterSection title="License types" values={PORTFOLIO_LICENSES} selected={licenses} onToggle={(value) => toggleSelection(value, licenses, setLicenses)} />
+              <FilterSection title="License types" values={PORTFOLIO_LICENSES} selected={licenses} onToggle={toggleLicense} />
               <FilterSection title="Tags" values={TAGS} selected={tags} onToggle={(value) => toggleSelection(value, tags, setTags)} />
               {hasFilters && (
                 <button type="button" onClick={clearFilters} className="mt-4 text-sm text-ink underline underline-offset-2 hover:no-underline">
@@ -142,6 +162,9 @@ export function PortfolioCatalog() {
             <p role="status" className="text-sm text-muted">{filtered.length} sample {filtered.length === 1 ? "entry" : "entries"} found</p>
             {hasFilters && <span className="text-xs text-muted">Showing matching wireframe samples</span>}
           </div>
+          {licenses.size > 0 && <div className="flex flex-wrap gap-2 mb-5" aria-label="Selected license filters">
+            {[...licenses].map((license) => <button key={license} type="button" onClick={() => toggleLicense(license)} className="rounded-full border border-border bg-white px-3 py-1 text-xs text-ink hover:border-ink" aria-label={`Remove ${license} filter`}>{license} <span aria-hidden="true">×</span></button>)}
+          </div>}
 
           {filtered.length === 0 ? (
             <Card className="p-10 text-center">

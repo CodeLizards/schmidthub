@@ -87,7 +87,7 @@ function LicenseIPCard() {
           {LICENSE_TYPES.map((l) => (
             <div key={l.id} className="relative group">
               <Link
-                href={`/licensing#${l.id}`}
+                href={`/portfolio?licenseGroup=${l.id}`}
                 className="w-full text-left text-sm font-medium text-ink hover:underline inline-flex items-center gap-1.5 py-1"
               >
                 {l.name} <span aria-hidden>→</span>

@@ -3,9 +3,6 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
 
 const PLANNED_PAGES: Record<string, string> = {
-  submit: "Add your Technology",
-  "sign-in": "Sign in",
-  "sign-up": "Join SHIP",
   contact: "Contact SHIP",
   dashboard: "Your dashboard",
   "one-time": "One-time submission",

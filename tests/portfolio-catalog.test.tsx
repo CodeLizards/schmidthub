@@ -52,6 +52,21 @@ describe("Portfolio catalog", () => {
     expect(screen.getByRole("button", { name: "List" })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("button", { name: "Grid" })).toHaveAttribute("aria-pressed", "false");
   });
+
+  it("opens with license family filters from the landing card", async () => {
+    const user = userEvent.setup();
+    window.history.replaceState(null, "", "/portfolio?licenseGroup=open");
+    render(<PortfolioCatalog initialLicenses={["CC BY 4.0", "MIT", "Apache 2.0"]} initialLicenseGroup="open" />);
+    expect(screen.getByRole("status")).toHaveTextContent("6 sample entries found");
+    expect(screen.getByRole("button", { name: "Remove MIT filter" })).toBeVisible();
+    await user.click(screen.getByRole("button", { name: "Remove MIT filter" }));
+    expect(screen.getByRole("status")).toHaveTextContent("5 sample entries found");
+    expect(window.location.search).toContain("license=CC+BY+4.0");
+    expect(window.location.search).not.toContain("MIT");
+    await user.click(screen.getByRole("button", { name: "Clear all filters →" }));
+    expect(window.location.pathname).toBe("/portfolio");
+    expect(window.location.search).toBe("");
+  });
 });
 
 it("marks legal policies unavailable instead of linking to placeholder pages", () => {

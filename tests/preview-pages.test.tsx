@@ -10,9 +10,9 @@ vi.mock("next/navigation", () => ({
 // Resolve these simple page functions before rendering. This tests their data
 // selection and returned content, not Next.js async rendering or HTTP routing.
 describe("Preview page contracts", () => {
-  it("clearly identifies the submission destination as a POC", async () => {
-    render(await PreviewPage({ params: Promise.resolve({ preview: ["submit"] }) }));
-    expect(screen.getByRole("heading", { level: 1, name: "Add your Technology" })).toBeVisible();
+  it("clearly identifies unbuilt destinations as a POC", async () => {
+    render(await PreviewPage({ params: Promise.resolve({ preview: ["dashboard"] }) }));
+    expect(screen.getByRole("heading", { level: 1, name: "Your dashboard" })).toBeVisible();
     expect(screen.getByText(/Accounts, submissions, and downloads are not enabled/)).toBeVisible();
     expect(screen.getByRole("link", { name: /Explore the wireframes/ })).toHaveAttribute("href", "https://ship-wireframes-v5.netlify.app/");
     expect(screen.getByRole("link", { name: "Back to home" })).toHaveAttribute("href", "/");

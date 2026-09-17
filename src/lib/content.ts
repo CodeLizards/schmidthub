@@ -313,3 +313,9 @@ export const LICENSE_TYPES = [
       "Paid licenses granting rights to use the IP in commercial products and services, negotiated per entry.",
   },
 ];
+
+export const LICENSE_GROUPS: Record<string, readonly string[]> = {
+  open: ["CC BY 4.0", "MIT", "Apache 2.0"],
+  academic: ["Open Research License"],
+  commercial: ["Commercial License"],
+};
