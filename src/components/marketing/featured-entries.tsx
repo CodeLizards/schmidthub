@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { FileText, Image as ImageIcon, X } from "lucide-react";
+import { X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Chip } from "@/components/ui/chip";
 import { SectionHeader } from "@/components/ui/section-header";
-import { PlaceholderImage } from "@/components/ui/placeholder-image";
-import { ENTRIES, ENTRY_TYPES, type Entry, type EntryType } from "@/lib/content";
+import { EntryCard } from "@/components/marketing/entry-card";
+import { ENTRIES, ENTRY_TYPES, type EntryType } from "@/lib/content";
 
 type Filter = "All" | EntryType;
 
@@ -55,7 +55,7 @@ export function FeaturedEntries() {
         className="mb-6"
       />
 
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div role="group" aria-label="Filter by IP type" className="flex flex-wrap gap-2 mb-4">
         {ENTRY_TYPES.map((t) => (
           <Chip
             key={t}
@@ -69,13 +69,15 @@ export function FeaturedEntries() {
         ))}
       </div>
 
+      <p role="status" className="sr-only">{filtered.length} of {ENTRIES.length} entries shown</p>
+
       {anyFilterActive && (
         <div className="flex flex-wrap items-center gap-2 mb-6 text-sm">
-          <span className="text-xs text-muted/60 font-mono uppercase tracking-[0.08em]">
+          <span className="text-xs text-muted font-mono uppercase tracking-[0.08em]">
             {filtered.length} of {ENTRIES.length} shown
           </span>
           {[...tags].map((t) => (
-            <Chip key={t} tone="solid" size="xs" onClick={() => toggleTag(t)}>
+            <Chip key={t} active tone="solid" size="xs" onClick={() => toggleTag(t)}>
               {t}
               <X size={11} strokeWidth={2.5} />
             </Chip>
@@ -116,75 +118,5 @@ export function FeaturedEntries() {
         </ul>
       )}
     </section>
-  );
-}
-
-function EntryCard({
-  entry,
-  selectedTags,
-  onToggleTag,
-}: {
-  entry: Entry;
-  selectedTags: Set<string>;
-  onToggleTag: (t: string) => void;
-}) {
-  return (
-    <Card
-      as="li"
-      interactive
-      className="group h-full flex flex-col overflow-hidden"
-    >
-      <div className="p-5 flex flex-col gap-3 flex-1">
-        <PlaceholderImage
-          label={entry.type}
-          fixedHeight="h-36"
-          className="mb-1 shrink-0"
-          overlay={
-            <div className="absolute top-2 left-2 z-10">
-              <Chip tone="solid" size="xs" className="tracking-wide uppercase font-medium">
-                {entry.subject}
-              </Chip>
-            </div>
-          }
-        />
-
-        <span className="text-xs text-muted/60 leading-snug">{entry.org}</span>
-
-        <Link href={`/portfolio/${entry.id}`} className="block">
-          <h3 className="font-serif font-normal text-ink text-xl leading-snug group-hover:text-black transition-colors">
-            {entry.title}
-          </h3>
-        </Link>
-
-        <p className="text-sm text-muted leading-relaxed line-clamp-3">
-          {entry.description}
-        </p>
-
-        <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
-          {entry.tags.map((t) => (
-            <Chip
-              key={t}
-              active={selectedTags.has(t)}
-              tone="soft"
-              size="xs"
-              onClick={() => onToggleTag(t)}
-            >
-              {t}
-            </Chip>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-4 pt-2 border-t border-gray-100 mt-1">
-          <span className="flex items-center gap-1 text-xs text-muted/60">
-            <FileText size={12} strokeWidth={2} />
-            {entry.docs} doc{entry.docs === 1 ? "" : "s"}
-          </span>
-          <span className="flex items-center gap-1 text-xs text-muted/60">
-            <ImageIcon size={12} strokeWidth={2} />
-            {entry.images} image{entry.images === 1 ? "" : "s"}
-          </span>
-        </div>
-      </div>
-    </Card>
   );
 }

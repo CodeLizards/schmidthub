@@ -21,10 +21,10 @@ const PROTOTYPE = [
 ];
 
 const SOCIALS: { label: string; href: string; short: string }[] = [
-  { label: "LinkedIn", short: "In", href: "#" },
-  { label: "X", short: "X", href: "#" },
-  { label: "YouTube", short: "YT", href: "#" },
-  { label: "Instagram", short: "IG", href: "#" },
+  { label: "LinkedIn", short: "In", href: "/social" },
+  { label: "X", short: "X", href: "/social" },
+  { label: "YouTube", short: "YT", href: "/social" },
+  { label: "Instagram", short: "IG", href: "/social" },
 ];
 
 export function SiteFooter() {
@@ -33,7 +33,7 @@ export function SiteFooter() {
       <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
         <div className="col-span-2 md:col-span-1">
           <div className="font-sans font-bold text-ink text-base mb-3">
-            schmidthub<span className="text-muted/60">.org</span>
+            schmidthub<span className="text-muted">.org</span>
           </div>
           <p className="text-sm text-muted leading-relaxed max-w-xs">
             A SHIP initiative connecting intellectual property with the people
@@ -41,14 +41,14 @@ export function SiteFooter() {
           </p>
           <div className="flex items-center gap-3 mt-5">
             {SOCIALS.map(({ label, short, href }) => (
-              <a
+              <Link
                 key={label}
                 href={href}
                 aria-label={label}
-                className="w-8 h-8 rounded border border-border flex items-center justify-center text-muted/60 hover:text-ink hover:border-gray-400 transition-colors text-xs font-medium"
+                className="w-8 h-8 rounded border border-border flex items-center justify-center text-muted hover:text-ink hover:border-gray-400 transition-colors text-xs font-medium"
               >
                 {short}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -62,31 +62,16 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-border max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p className="text-xs text-muted/60">
+        <p className="text-xs text-muted">
           © 2026 Schmidt Foundation. All rights reserved.
         </p>
-        <div className="flex items-center gap-5">
+        <div className="flex flex-col lg:flex-row items-center gap-5">
           <div className="flex items-center gap-4">
-            <a
-              href="/privacy"
-              className="text-xs text-muted/60 underline underline-offset-2 hover:text-ink transition-colors"
-            >
-              Privacy Policy
-            </a>
-            <a
-              href="/terms"
-              className="text-xs text-muted/60 underline underline-offset-2 hover:text-ink transition-colors"
-            >
-              Terms of Use
-            </a>
-            <a
-              href="/cookies"
-              className="text-xs text-muted/60 underline underline-offset-2 hover:text-ink transition-colors"
-            >
-              Cookie Policy
-            </a>
+            <span className="text-xs text-muted">Privacy Policy (unavailable)</span>
+            <span className="text-xs text-muted">Terms of Use (unavailable)</span>
+            <span className="text-xs text-muted">Cookie Policy (unavailable)</span>
           </div>
-          <p className="text-xs text-muted/60 font-mono">
+          <p className="text-xs text-muted font-mono">
             SHIP · Intellectual Property Platform
           </p>
         </div>
@@ -104,7 +89,7 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <p className="text-xs font-normal text-muted/60 uppercase tracking-[0.08em] mb-4">
+      <p className="text-xs font-normal text-muted uppercase tracking-[0.08em] mb-4">
         {heading}
       </p>
       <ul className="space-y-2">

@@ -19,19 +19,27 @@ export type Subject =
 
 export type Entry = {
   id: string;
+  filed: string;
   type: EntryType;
   subject: Subject;
   org: string;
   title: string;
   description: string;
   tags: string[];
+  license: string;
   docs: number;
   images: number;
+  detail?: {
+    description: string[];
+    inventors: { name: string; role: string; affiliation: string }[];
+    attachments: { name: string; format: string; size: string }[];
+  };
 };
 
 export const ENTRIES: Entry[] = [
   {
     id: "SH-2024-0801",
+    filed: "2024-03-18",
     type: "Patents",
     subject: "Health & Medicine",
     org: "Schmidt Futures",
@@ -39,11 +47,29 @@ export const ENTRIES: Entry[] = [
     description:
       "A novel brain-machine interface design enabling fine motor control in prosthetic limbs through adaptive signal processing algorithms.",
     tags: ["neuroscience", "prosthetics", "signal-processing"],
+    license: "Open Research License",
     docs: 2,
     images: 3,
+    detail: {
+      description: [
+        "This invention presents a novel adaptive neural interface designed for precision control of upper-limb prosthetics. The system integrates a multi-channel electrode array with a real-time adaptive signal processing pipeline that continuously learns the user's electromyographic (EMG) signal characteristics.",
+        "Unlike static signal decoders, the adaptive layer recalibrates every 200ms using an online gradient descent algorithm, maintaining high accuracy even as electrode-skin contact degrades over the course of a day.",
+        "In clinical trials with 24 participants across 6 months, the interface achieved a 91.4% intent classification accuracy for 8 discrete gesture classes.",
+      ],
+      inventors: [
+        { name: "Dr. Anya Kowalski", role: "Principal Investigator", affiliation: "Schmidt Futures / MIT Media Lab" },
+        { name: "Prof. Marcus Lee", role: "Co-Inventor, Signal Processing", affiliation: "University of California, Berkeley" },
+      ],
+      attachments: [
+        { name: "Neural_Interface_Patent_Draft.pdf", format: "PDF", size: "4.2 MB" },
+        { name: "EMG_Signal_Dataset_2024.csv", format: "CSV", size: "128 MB" },
+        { name: "Electrode_Array_CAD_Files.zip", format: "ZIP", size: "38.1 MB" },
+      ],
+    },
   },
   {
-    id: "SH-2024-0714",
+    id: "SH-2024-0802",
+    filed: "2024-01-22",
     type: "Technology & Equipment",
     subject: "Climate & Environment",
     org: "Schmidt Ocean Institute",
@@ -51,11 +77,13 @@ export const ENTRIES: Entry[] = [
     description:
       "Open-source tool for high-resolution attribution of greenhouse gas emissions to individual facilities and supply chains.",
     tags: ["climate", "emissions", "open-source"],
+    license: "Apache 2.0",
     docs: 3,
     images: 4,
   },
   {
-    id: "SH-2024-0623",
+    id: "SH-2024-0803",
+    filed: "2024-05-10",
     type: "Scientific Datasets",
     subject: "Ocean Sciences",
     org: "Schmidt Marine Technology",
@@ -63,11 +91,13 @@ export const ENTRIES: Entry[] = [
     description:
       "Satellite-derived thermal stress and bleaching probability records for 14,000+ reef locations spanning 2018–2024.",
     tags: ["marine", "climate", "open-data"],
+    license: "CC BY 4.0",
     docs: 1,
     images: 5,
   },
   {
-    id: "SH-2024-0512",
+    id: "SH-2024-0804",
+    filed: "2023-11-04",
     type: "Technology & Equipment",
     subject: "Data & Computing",
     org: "Schmidt DataX",
@@ -75,11 +105,13 @@ export const ENTRIES: Entry[] = [
     description:
       "Toolkit enabling collaborative machine learning across institutions without sharing raw patient or user data.",
     tags: ["privacy", "federated-learning", "healthcare"],
+    license: "MIT",
     docs: 2,
     images: 6,
   },
   {
-    id: "SH-2024-0428",
+    id: "SH-2024-0805",
+    filed: "2024-02-28",
     type: "Academic Research",
     subject: "Health & Medicine",
     org: "Schmidt Pandemic Science",
@@ -87,11 +119,13 @@ export const ENTRIES: Entry[] = [
     description:
       "Field-deployable sequencing workflow reducing pathogen identification time from 72 hours to under 8 hours.",
     tags: ["genomics", "pandemic", "diagnostics"],
+    license: "Open Research License",
     docs: 3,
     images: 2,
   },
   {
-    id: "SH-2024-0331",
+    id: "SH-2024-0806",
+    filed: "2023-09-14",
     type: "Creative Works",
     subject: "Clean Energy",
     org: "Schmidt Clean Energy",
@@ -99,9 +133,100 @@ export const ENTRIES: Entry[] = [
     description:
       "Modular membrane design reducing energy consumption in desalination by 34% while increasing throughput in high-salinity environments.",
     tags: ["water", "energy", "hardware"],
+    license: "Full IP Assignment Available",
     docs: 1,
     images: 3,
   },
+];
+
+export const PORTFOLIO_LICENSES = [
+  "Open Research License",
+  "CC BY 4.0",
+  "MIT",
+  "Apache 2.0",
+  "Commercial License",
+] as const;
+
+export const PORTFOLIO_ENTRIES: Entry[] = [
+  {
+    id: "SH-2024-0812",
+    filed: "2023-11-05",
+    type: "Patents",
+    subject: "Clean Energy",
+    org: "Schmidt Clean Energy",
+    title: "Grid-Scale Battery Thermal Management Method",
+    description: "Phase-change cooling geometry extending cell life 22% in high-cycling grid storage applications.",
+    tags: ["energy", "hardware", "thermal"],
+    license: "Commercial License",
+    docs: 1,
+    images: 4,
+  },
+  {
+    id: "SH-2024-0811",
+    filed: "2023-12-12",
+    type: "Creative Works",
+    subject: "Ocean Sciences",
+    org: "Schmidt Ocean Institute",
+    title: "Coral Restoration Field Photography Archive",
+    description: "12,000 georeferenced reef photographs documenting restoration sites over five years, cleared for research and media use.",
+    tags: ["ocean", "media", "conservation"],
+    license: "CC BY 4.0",
+    docs: 3,
+    images: 3,
+  },
+  {
+    id: "SH-2024-0810",
+    filed: "2024-01-30",
+    type: "Academic Research",
+    subject: "Climate & Environment",
+    org: "Schmidt DataX",
+    title: "Wildfire Smoke Dispersion Model Validation Study",
+    description: "Multi-season validation of plume dispersion models against ground sensor networks across the western US.",
+    tags: ["climate", "modelling", "open-data"],
+    license: "CC BY 4.0",
+    docs: 2,
+    images: 2,
+  },
+  {
+    id: "SH-2024-0809",
+    filed: "2024-02-27",
+    type: "Patents",
+    subject: "Ocean Sciences",
+    org: "Schmidt Marine Technology",
+    title: "Low-Cost Ocean pH Sensor Design",
+    description: "Solid-state pH sensing element manufacturable under $40 per unit with 18-month drift under 0.02 pH.",
+    tags: ["ocean", "sensors", "hardware"],
+    license: "Open Research License",
+    docs: 1,
+    images: 6,
+  },
+  {
+    id: "SH-2024-0808",
+    filed: "2024-04-11",
+    type: "Scientific Datasets",
+    subject: "Health & Medicine",
+    org: "Schmidt Pandemic Science",
+    title: "Antibiotic Resistance Gene Atlas",
+    description: "Curated atlas of 48,000 resistance gene sequences with clinical metadata across 60 countries.",
+    tags: ["genomics", "health", "open-data"],
+    license: "CC BY 4.0",
+    docs: 3,
+    images: 5,
+  },
+  {
+    id: "SH-2024-0807",
+    filed: "2024-05-02",
+    type: "Technology & Equipment",
+    subject: "Ocean Sciences",
+    org: "Schmidt Ocean Institute",
+    title: "Deep-Sea Autonomous Sampling Vehicle",
+    description: "Pressure-tolerant autonomous vehicle for repeatable benthic sampling to 6,000m with modular payload bays.",
+    tags: ["ocean", "robotics", "hardware"],
+    license: "Commercial License",
+    docs: 2,
+    images: 4,
+  },
+  ...ENTRIES.slice().reverse(),
 ];
 
 export const ENTRY_TYPES: (EntryType | "All")[] = [

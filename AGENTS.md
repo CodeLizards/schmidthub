@@ -1,7 +1,7 @@
-# schmidthub — pitch repo
+# schmidthub — SHIP application
 
-Landing page + delivery-plan pitch surface for the Schmidt Hub for IP
-(SHIP). Next.js 16 App Router, React 19, Tailwind 4, TypeScript.
+Home-page POC and future full application for the Schmidt Hub for IP
+(SHIP). The live v5 wireframes are the product source of truth. Next.js 16 App Router, React 19, Tailwind 4, TypeScript.
 
 ## Standards
 
@@ -21,8 +21,11 @@ snapshotted from the upstream library — re-copy from
 
 ## Project details
 
-- **Purpose**: pitch surface — the actual product build lives in the
-  inherited `IPLicensing` repo. Do not conflate.
+- **Purpose**: build the SHIP application here, beginning with a faithful
+  home-page POC. Do not use or incorporate the unrelated IPLicensing POC.
+- **Product source**: https://ship-wireframes-v5.netlify.app/
+- **Backend proposal**: `docs/backend-architecture.md`; implementation sequence
+  in `docs/implementation-plan.md`. Backend choices are proposals, not installed dependencies.
 - **Setup**: `pnpm install`, then `pnpm dev` (dev server on port 3000).
 - **Build/lint**: `pnpm build`, `pnpm lint`.
 - **Directory structure**:
@@ -32,7 +35,7 @@ snapshotted from the upstream library — re-copy from
   - `src/components/ui/` — reusable primitives (Card, Chip, Button, etc.).
   - `src/lib/content.ts` — landing-page content data (entries, partners,
     licenses).
-  - `docs/12-week-plan.html` — delivery plan (source of truth).
+  - `docs/12-week-plan.html` — historical plan; superseded by the Markdown plans.
   - `public/plan.html` — served copy of the plan.
 - **Conventions**:
   - Package manager: **pnpm**. Confirm before adding production deps.

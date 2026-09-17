@@ -6,16 +6,16 @@ import { LICENSE_TYPES } from "@/lib/content";
 
 export function Hero() {
   return (
-    <section className="pt-32 pb-16 border-b border-border bg-white">
+    <section className="pt-16 md:pt-18 pb-12 border-b border-border bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto">
           <Eyebrow className="mb-6">Schmidt Hub for IP</Eyebrow>
           <h1 className="font-serif font-normal text-5xl md:text-6xl text-ink leading-[1.05] tracking-[-0.02em] mb-6">
             Sharing Innovation.
             <br />
-            Maximising Impact.
+            Maximizing Impact.
           </h1>
-          <p className="text-lg text-muted leading-relaxed max-w-2xl mx-auto mb-10">
+          <p className="text-lg text-muted leading-relaxed max-w-3xl mx-auto mb-10">
             The Schmidt Hub connects world-class research with the institutions,
             entrepreneurs, and communities who can advance it. Explore what is
             available, or submit your own IP through a transparent, open
@@ -92,7 +92,7 @@ function LicenseIPCard() {
               >
                 {l.name} <span aria-hidden>→</span>
               </Link>
-              <div className="absolute left-0 top-full mt-1 z-20 w-72 bg-gray-100 border border-gray-200 text-ink text-xs leading-relaxed rounded-md p-3 shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200">
+              <div className="absolute left-0 top-full mt-1 z-20 w-full max-w-72 bg-gray-100 border border-gray-200 text-ink text-xs leading-relaxed rounded-md p-3 shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200">
                 {l.description}
               </div>
             </div>

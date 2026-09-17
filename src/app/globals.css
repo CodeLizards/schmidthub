@@ -3,7 +3,7 @@
 /*
  * SHIP · schmidthub.org — palette pulled from the wireframes:
  *   navy ink #0d1b4b, muted slate #6b7a99, border #d6dae0,
- *   white ground. Cambria/Georgia serif for display, Arimo for body.
+ *   white ground. Cambria/Georgia serif for display, system sans for body.
  */
 
 @theme inline {
@@ -14,11 +14,7 @@
   --color-panel: #f6f7f9;
 
   --font-serif: "Cambria", "Georgia", serif;
-  /* Body uses the system stack (matches the wireframes exactly).
-     Arimo is loaded via next/font and available as font-arimo /
-     var(--font-arimo) for accents (logo, buttons). */
   --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-arimo-stack: var(--font-arimo), "Arimo", sans-serif;
 }
 
 @layer base {
@@ -37,7 +33,8 @@
     background: #e6ecf5;
     color: var(--color-ink);
   }
-  a:focus-visible, button:focus-visible {
+  [id] { scroll-margin-top: 5rem; }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
     outline: 2px solid var(--color-ink);
     outline-offset: 2px;
     border-radius: 2px;

@@ -32,7 +32,9 @@ export function Chip({
     : "text-xs px-3 py-1.5";
   const tone_ = active ? TONE.solid : TONE[tone];
   const hover = "onClick" in rest && rest.onClick
-    ? " hover:text-ink hover:border-gray-400 transition-colors"
+    ? (active || tone === "solid"
+      ? " hover:bg-ink-hover transition-colors"
+      : " hover:text-ink hover:border-gray-400 transition-colors")
     : "";
   const cls = `inline-flex items-center gap-1 rounded ${sz} ${tone_}${hover} ${className}`;
   if ("onClick" in rest && rest.onClick) {

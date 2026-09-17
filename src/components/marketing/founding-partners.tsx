@@ -41,8 +41,9 @@ function PartnerCard({ partner }: { partner: Partner }) {
     <Card
       as={Link}
       href={`/about#${partner.id}`}
+      id={partner.id}
       interactive
-      className="group relative snap-start shrink-0 w-72 overflow-hidden text-left cursor-pointer"
+      className="group relative scroll-mt-20 snap-start shrink-0 w-72 overflow-hidden text-left cursor-pointer"
     >
       <div className="h-full p-6 flex flex-col items-start justify-between gap-4">
         <PlaceholderImage label={`${partner.name} logo`} aspect="video" />
@@ -51,7 +52,7 @@ function PartnerCard({ partner }: { partner: Partner }) {
         </h3>
       </div>
 
-      <div className="absolute inset-0 bg-white p-6 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+      <div className="absolute inset-0 bg-white p-6 flex flex-col justify-between opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-200 pointer-events-none">
         <div>
           <h3 className="font-serif font-normal text-xl text-ink leading-snug">
             {partner.name}
