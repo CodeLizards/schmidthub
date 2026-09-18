@@ -1,47 +1,33 @@
 # SHIP preview scope and acceptance matrix
 
-17 September 2026 · Companion to the [10-week proposal](10-week-preview-proposal.md).
+The [10-week plan](10-week-preview-proposal.md) controls delivery. The [wireframe action inventory](wireframe-action-inventory.md) records observed controls and unresolved questions. WF references below are evidence; implementation safeguards are acceptance requirements, not additional UI.
 
-The [step-by-step feature checklist](10-week-preview-proposal.md#step-by-step-feature-implementation-checklist) expands these areas into ordered implementation tasks.
+All rows remain in scope unless an owner approves a named cut and updates this matrix and the schedule. Questions must be resolved before accepting the affected behavior.
 
-This is a workflow-family inventory, not a claim that every wireframe field/modal has been audited. Week one expands each row into individual screens, fields, actions, policies and tests. All rows below are proposed pilot scope; fallback reductions require project-owner agreement.
+| ID | Source / plan areas | Required behavior | Target and acceptance |
+| --- | --- | --- | --- |
+| P01 | WF01–02 / 10 | Home/partner links, featured filters, About navigation, walkthroughs, FAQs and observed destinations | W6: controls reach their intended content; displayed records reconcile to approved data. |
+| P02 | WF03–04 / 11 | Search, two sort choices, Grid/List, observed filters, tags/cards; four detail tabs, views, gallery and related entries | W6: new records resolve without rebuild; direct access and search respect permissions. No invented program filter or pagination UI. |
+| P03 | WF23–24 / 13 | Learning search/categories/pagination, topics/articles/glossary/share controls; resource categories and Download/View Page/Visit Site | W6: every retained action works with approved content; counts reflect actual data. |
+| P04 | WF07–08 / 3 | Email/password and Google sign-in, Forgot?, participation links and Register Your Interest | W2/W6: identity/recovery works; interest fields persist and reach partnership handling. No unobserved interest-admin dashboard. |
+| S01 | WF09 / 4 | Overview counts/links; My Submissions search/status tabs; record editor Save/Discard and attachment changes | W3–4: edits persist correctly; Q2 defines published-edit effects. No added history screen or archive command. |
+| S02 | WF10–12 / 5 | Two-step wizard, five type variants, exact goals/terms/source fields, contributor/contact/visibility, Create Draft/Publish | W3: values survive save/reload; final routing connects in W4–5; no new fields inferred from backend schema. |
+| S03 | WF09–11, WF04–05 / 6 | Shown file formats, 500 MB, Add/Remove, attachments/gallery and access | W3/W6: safe large-file upload; unvalidated/inaccessible files denied; real metadata displayed. |
+| R01 | WF13 / 7 | Queue search/tabs, individual and bulk approval, return, request-info, attachment View, Published/overview links | W4: authorized decisions persist once with correct routing; bulk follows the resolved approval rule. |
+| R02 | WF14 / 8 | Legal Approve → Publish and Request info | W5: exact content/terms publication; no invented rejection/reinstatement control. Q1 resolves admin overrides separately. |
+| R03 | WF12 / 9 | Recognized external/public source and no SHIP transaction → immediate publication; otherwise review | W5: agreed eligibility verified server-side with evidence; no invented trust-management screen. |
+| L01 | WF05–06 / 12 | Download gate identity/acceptance/confirmation and IP contact form with four Interest choices | W6: agreed next step works, terms acceptance retained and access authorized; inquiries do not execute contracts. |
+| C01 | WF13–15, WF17–18, WF22 / 14 | Inbox/reply, message and workflow notifications, visible reviewer reminders, invite/takedown delivery | W4–8: scoped delivery/read behavior works; no added inbox filters or notification preference form. |
+| A01 | WF16 / 15 | Org overview/submissions/portfolio/audit; team role/authority/program affiliations; New Program and three settings fields | W7: only permitted org operations persist; exact remaining dialog states resolved before implementation. |
+| A02 | WF17 / 16 | Program content/team/settings; Edit, Approve & publish, Unpublish, Take down | W7: sibling-program denial; Q1 approval rule respected; submitter notified on takedown. |
+| A03 | WF18 / 17 | Organization/member management, moderation, audit list and three platform settings fields | W7: immediate admin edits audited; entity notified on takedown; no invented case/appeal or audit-filter UI. |
+| A04 | WF19 / 18 | Profile display; account Email/Display name/Institution Edit and Change Password | W6: confirmed edit dialogs persist changes and identity updates safely. |
+| A05 | WF20 / 19 | Exact displayed counts/rates/averages and entity benchmark table | W7/W9: formulas approved, totals reproducible and exercise data excluded; no added charts/drilldowns/date controls. |
+| B01 | WF21 / 20 | Template, CSV/XLSX/ZIP, validation/error flags and draft creation | W8: safe repeat import, correct ownership and no automatic publication; Q6 specifies ZIP/error contracts. |
+| G01 | WF22 / 21 | 30-day invite and tracking; guest steps, signature/agreement, Create Draft/Publish | W8: expiry, draft-resume and completion rules tested; typed-name agreement retained; no added guest approval screen. |
+| O01 | WF25 / 22 | Contact reasons/name/email/message and shared navigation; previously agreed unavailable destinations retained | W6/W9: working specified contact flow; no invented policy/social destination. |
+| O02 | E/U / 2, 23–24 | Private pilot, real approved data, scoped accounts, database/storage/worker, tests and operating support | W2–10: denial tests, restore/recovery and rollback pass; owners accept retained scope. |
 
-**Evidence key:** F = code inspected; W = wireframe screen inspected during this planning review; P = public wireframe inspected in the preceding implementation work; M = exposed in a wireframe menu, details still to inventory.
+## Change control
 
-| ID | Wireframe surface / evidence | Current implementation | Required pilot behavior | Target / acceptance scenario |
-| --- | --- | --- | --- | --- |
-| P01 | Home, About, partners / F, W, P | Reusable public presentation, fixtures/placeholders | Approved copy, organizations, featured published IP and working destinations; all behind pilot access gate | W6: featured and portfolio data reconcile; signed-out/uninvited internet visitors cannot access pilot content |
-| P02 | Portfolio and IP detail / F, P | 12 fixture entries; static allowlist of detail paths; local filters | Database-backed filters, sort, pagination, facets, detail, attachments, gallery and related records | W6: newly published ID resolves without rebuild; withdrawn/private records excluded from public projection and protected on direct access |
-| P03 | Learning Hub, articles, glossary, Resources / F, P | Six learning fixtures, 19 resource fixtures, topic/glossary pages; unavailable resource actions | Approved article/detail content, search/filter, actual authorized files or official links, versioned asset metadata | W6: every accepted content row opens its intended content; file availability and displayed metadata are real |
-| P04 | Sign-in, interest request and participation / F, W | Form shells and unavailable controls | Real managed identity/recovery; interest request storage and approval; individual accounts and invitation scope | W2/W6: approved user signs in; uninvited user denied; no fake successful form submissions |
-| S01 | Submitter overview and My Submissions / W, F | Dashboard placeholder | Owner-scoped state counts/list, drafts, pending work, archive/history and real activity | W4: counts reconcile; another user's draft cannot be retrieved by URL or API |
-| S02 | Two-step single submission / W | Not implemented; `/submit` is a landing page | Five types, title/date/subject/abstract/description, conditional external sources, uploads, goals, seven preferred-term choices, notes, contributors/affiliation/contact/visibility | W3: validated draft survives reload; stale write rejected; submitted snapshot immutable; exact conditional fields inventoried in W1 |
-| S03 | Attachments, supporting files and gallery / W, F | File labels and gallery placeholders | Private direct upload, validation/quarantine/scan, authorized display/download, retry/abort and cleanup; preserve 500 MB specification | W3/W6: boundary-size upload bypasses web body; blocked scan and unrelated user receive no file |
-| R01 | Technical overview/queue/detail / W | Not implemented | Assignment/scope, approve-to-legal, return-with-reason, information requests and revision-aware resubmission | W4: distinct actors complete review; stale/duplicate/forged decision has no unintended transition |
-| R02 | Legal overview/queue/detail / W | Not implemented | Exact approved terms, publication decision and request-info; agreed return/reinstatement semantics | W5: no direct publication from technical review; license preference never silently becomes approved terms |
-| R03 | External-public routing / W | Explanatory UI only | Verified authority/source relationship plus public-source/no-SHIP-transaction rule; failed check routes to review | W5: eligible controlled example takes fast path with evidence; untrusted URL or private-network target does not |
-| L01 | License, download and owner-contact journey / F, P | Unavailable controls/terms | Approved versioned terms, eligible acceptance/download grants, inquiry threads; explicit commercial/assignment/custom handling | W6: acceptance ties to exact entry and terms; no automatic commercial agreement; contact details remain permission-controlled |
-| C01 | Inbox, notifications, reminders / W, M | Not implemented | Participant-scoped threads, send/read state, retryable notifications, pilot-recipient email allowlist | W4/W6: sender/recipient reload see persisted message; unrelated actor denied; repeated job produces no duplicate logical notification |
-| A01 | Org Admin, team, programs, portfolio, settings / W, M | Not implemented | Org-scoped approvals, invitations, members/role changes, program creation/management, settings and real portfolio counts | W7: last-admin protection; no out-of-org mutation; default license setting affects new preferences only, not historic terms |
-| A02 | Program Admin and team/settings / W, M | Not implemented | Program-scoped team/settings/submissions, unpublish/takedown and notifications | W7: sibling program denied; takedown audited, submitter notified, access withdrawn within agreed policy |
-| A03 | Super Admin, organizations/users/moderation/audit/settings / W, M | Not implemented | Explicit platform authority, disable/revoke, moderation reasons, audited settings and paginated audit queries | W7: no privilege escalation from request fields; sensitive changes trace to a verified actor |
-| A04 | Profile and Account Settings / W, M, F | Some form shells only | Persist actual profile/preferences, supported recovery/security actions and session sign-out | W6: reload persists settings; disabling account revokes access; each exposed control has a defined effect |
-| A05 | Dashboard benchmarks / W | Wireframe-style sample totals only | Product-defined licensing/turnaround/return/download measures from real events; no fabricated history | W7/W9: denominator/date window is documented; counts reproducible; exercise events excluded; insufficient data shown honestly |
-| B01 | Batch upload / W | Not implemented | CSV/XLSX/ZIP, documented mapping, row errors, resumable jobs, replay safety, drafts under My Submissions | W8: malformed rows flagged; valid import yields drafts once; nothing auto-publishes on import; ZIP association confirmed in W1 |
-| G01 | One-time invite management and guest submission / W | Generic preview destination | 30-day expiry, tracking, agreement/publication approval, narrow guest session, bounded access, ownership and redemption | W8: valid guest submits once to inviting org; expired/reused token fails; opening an email link does not consume it; email scanners do not falsely mark completion |
-| O01 | Contact, policy/legal content, footer / F, P | Planned/unavailable destinations | Owner-approved content and functioning accepted contact workflow; safe external links | W6/W9: no generic preview destination or inaccurate legal claim on an accepted journey |
-| O02 | Operational pilot / F | Local build/test scripts; no application infrastructure | Access-restricted host, CI, private database/bucket, worker, backups, monitoring, mail isolation and runbooks | W2/W9/W10: uninvited access denied; restore database and file; rollback/restart rehearsed; operator identified |
-
-## Cross-cutting decisions that must be recorded
-
-- **Real data/access:** project owners are assembling and approving the IP list. Access is limited to test users. No current confidentiality issues were reported; ownership, file rights and contact approval still travel with the records.
-- **Role assignment:** scope is a server-side grant, not the role selected in a prototype. The wireframe's overlapping roles do not automatically authorize self-review.
-- **Private visibility:** agree the difference between not indexed and not accessible. Proposed pilot policy denies unrelated users direct access to private material.
-- **Guest agreement:** the invitation and orientation copy promise agreement and submitter approval; capture version, actor identity and timestamp. Decide whether an additional post-review approval is necessary. Do not infer a formal e-signature product requirement from copy alone.
-- **Custom terms and assignment:** represent as distinct choices/workflows; an ordinary download checkbox cannot transfer full ownership.
-- **Batch imports:** preserve draft-only import semantics even when a later individual submission could qualify for external-public routing.
-- **Metrics:** “download grant issued” is not “file fully transferred”; “commercial inquiry” is not “license executed.” A pilot can have zero/undefined rates.
-
-## Week-one expansion format
-
-For each action, capture: wireframe label and screenshot/reference, screen/role, input fields and constraints, service command/query, allowed scope, state transition, persisted records, validation/failure/empty states, notification effect, acceptance test, owner, and decision status. Record differences between prototype behavior and proposed operational behavior explicitly.
+An approved cut records source control, affected scope IDs/tasks, replacement behavior, owner/date, remaining effort saved and revised tests. Keep unverified states in the inventory's question list; do not silently implement assumptions or use them as cut candidates.
