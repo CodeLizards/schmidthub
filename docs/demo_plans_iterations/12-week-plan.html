@@ -1,0 +1,1328 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
+  <aside style="padding:16px;background:#fff3cd;color:#332701;text-align:center">Historical plan — superseded September 16, 2026. SHIP is built in schmidthub from the v5 wireframes. The inherited-backend, pilot-auth, and scope assumptions below no longer apply. See docs/backend-architecture.md and docs/implementation-plan.md in the repository.</aside>
+<title>SHIP · Twelve-Week Build Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground: #F5F2EA;
+    --panel: #EFEBE0;
+    --rule: #DAD3C2;
+    --rule-soft: #E4DED0;
+    --ink: #14171F;
+    --ink-2: #2B2F3A;
+    --muted: #5B6472;
+    --muted-2: #7C8492;
+    --accent: #1F4A6B;
+    --accent-soft: #D8E1EA;
+    --umber: #A8531F;
+    --umber-soft: #EEDDCC;
+    --leaf: #3D6B4A;
+    --leaf-soft: #DBE5DA;
+    --serif: "Newsreader", ui-serif, Georgia, serif;
+    --sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --ground: #141821;
+      --panel: #1B2029;
+      --rule: #2A2F3B;
+      --rule-soft: #22262F;
+      --ink: #EDE7D7;
+      --ink-2: #C7C2B4;
+      --muted: #8F98A7;
+      --muted-2: #6D7583;
+      --accent: #7FB0D6;
+      --accent-soft: #223243;
+      --umber: #D89060;
+      --umber-soft: #3A2A1E;
+      --leaf: #8FBF98;
+      --leaf-soft: #22322A;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #141821;
+    --panel: #1B2029;
+    --rule: #2A2F3B;
+    --rule-soft: #22262F;
+    --ink: #EDE7D7;
+    --ink-2: #C7C2B4;
+    --muted: #8F98A7;
+    --muted-2: #6D7583;
+    --accent: #7FB0D6;
+    --accent-soft: #223243;
+    --umber: #D89060;
+    --umber-soft: #3A2A1E;
+    --leaf: #8FBF98;
+    --leaf-soft: #22322A;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .page {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 72px 32px 120px;
+  }
+  @media (max-width: 640px) {
+    .page { padding: 40px 20px 80px; }
+  }
+
+  /* ── Masthead ────────────────────────────────────── */
+  .mast {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 28px;
+    margin-bottom: 44px;
+  }
+  .mast-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .mast-row .doc-id { color: var(--ink-2); }
+  .solo-pill {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    background: var(--umber-soft);
+    color: var(--umber);
+    margin-left: 8px;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 52px;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 14px;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .deck {
+    font-family: var(--serif);
+    font-size: 20px;
+    line-height: 1.45;
+    color: var(--ink-2);
+    max-width: 640px;
+    margin: 0;
+    font-weight: 400;
+  }
+  @media (max-width: 640px) {
+    h1 { font-size: 36px; }
+    .deck { font-size: 17px; }
+  }
+
+  /* ── Section framing ─────────────────────────────── */
+  section { margin-top: 56px; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: var(--muted);
+  }
+  h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.005em;
+    margin: 0 0 18px;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  h3 {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+    margin: 0 0 8px;
+    color: var(--ink);
+  }
+  p { margin: 0 0 12px; max-width: 680px; }
+  p.lede { font-size: 16px; color: var(--ink-2); }
+
+  /* ── Tiles at a glance ───────────────────────────── */
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .tile {
+    padding: 20px 20px;
+    border-right: 1px solid var(--rule-soft);
+  }
+  .tile:last-child { border-right: none; }
+  .tile .val {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .tile .lbl {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+  @media (max-width: 820px) {
+    .tiles { grid-template-columns: repeat(3, 1fr); }
+    .tile { border-bottom: 1px solid var(--rule-soft); }
+    .tile:nth-child(3) { border-right: none; }
+    .tile:nth-last-child(-n+2) { border-bottom: none; }
+  }
+  @media (max-width: 520px) {
+    .tiles { grid-template-columns: repeat(2, 1fr); }
+    .tile { border-right: 1px solid var(--rule-soft); }
+    .tile:nth-child(2n) { border-right: none; }
+  }
+
+  /* ── Gantt-style band ─────────────────────────────── */
+  .gantt-wrap { overflow-x: auto; }
+  .gantt {
+    display: grid;
+    grid-template-columns: 170px repeat(12, minmax(40px, 1fr));
+    align-items: center;
+    min-width: 760px;
+  }
+  .gantt .hdr {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .gantt .hdr.corner {
+    text-align: left;
+    padding-left: 0;
+  }
+  .gantt .row-lbl {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 12px 12px 12px 0;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .gantt .cell {
+    height: 100%;
+    padding: 10px 3px;
+    border-bottom: 1px solid var(--rule-soft);
+    position: relative;
+  }
+  .gantt .bar {
+    height: 8px;
+    border-radius: 1px;
+    background: var(--accent);
+    opacity: 0.9;
+  }
+  .gantt .bar.umber { background: var(--umber); }
+  .gantt .bar.leaf { background: var(--leaf); }
+  .gantt .bar.faint { opacity: 0.35; }
+  .gantt-legend {
+    display: flex;
+    gap: 18px;
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    flex-wrap: wrap;
+  }
+  .gantt-legend .sw {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 6px;
+    vertical-align: -1px;
+  }
+  .sw.a { background: var(--accent); }
+  .sw.u { background: var(--umber); }
+  .sw.l { background: var(--leaf); }
+
+  /* ── The read + scope columns ────────────────────── */
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 44px;
+    border-top: 1px solid var(--rule-soft);
+    padding-top: 24px;
+  }
+  @media (max-width: 720px) {
+    .cols { grid-template-columns: 1fr; gap: 24px; }
+  }
+  .cols h3 { margin-bottom: 12px; }
+  ul.tight {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  ul.tight li {
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--rule-soft);
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 8px;
+    align-items: baseline;
+    font-size: 14px;
+  }
+  ul.tight li:last-child { border-bottom: none; }
+  ul.tight li .n {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted-2);
+  }
+  ul.tight.out li .n { color: var(--umber); }
+
+  /* ── Stack table ─────────────────────────────────── */
+  table.stack, table.seed, table.users, table.gates, table.hats {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 14px;
+  }
+  table.stack th, table.stack td,
+  table.seed th, table.seed td,
+  table.users th, table.users td,
+  table.gates th, table.gates td,
+  table.hats th, table.hats td {
+    text-align: left;
+    padding: 10px 12px 10px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    vertical-align: top;
+  }
+  table th {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    border-bottom: 1px solid var(--rule);
+  }
+  table td.tool {
+    font-family: var(--sans);
+    font-weight: 600;
+    color: var(--ink);
+    width: 26%;
+  }
+  table td.role {
+    color: var(--muted);
+    width: 22%;
+  }
+
+  /* ── Solo-capacity callout ────────────────────────── */
+  .callout {
+    border-left: 3px solid var(--umber);
+    background: var(--umber-soft);
+    padding: 18px 20px;
+    margin-top: 20px;
+    max-width: 720px;
+  }
+  :root[data-theme="dark"] .callout,
+  :root:not([data-theme="light"]) .callout {
+    background: transparent;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .callout { background: transparent; }
+  }
+  .callout .cname {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--umber);
+    margin-bottom: 6px;
+  }
+  .callout p { font-size: 14px; color: var(--ink-2); margin: 0; }
+
+  /* ── Phase blocks + weeks ────────────────────────── */
+  .phase {
+    margin-top: 40px;
+  }
+  .phase-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 10px;
+    margin-bottom: 8px;
+  }
+  .phase-head .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .phase-head .title {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+    flex: 1;
+  }
+  .phase-head .span {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .phase.p1 .phase-head { border-bottom-color: var(--accent); }
+  .phase.p2 .phase-head { border-bottom-color: var(--leaf); }
+  .phase.p3 .phase-head { border-bottom-color: var(--umber); }
+
+  .week {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .week:last-child { border-bottom: none; }
+  .week .code {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-2);
+    padding-top: 3px;
+  }
+  .week .code .wk {
+    display: block;
+    font-family: var(--serif);
+    font-size: 26px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .week .code .marker {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    margin-top: 6px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .week.p2 .marker { background: var(--leaf-soft); color: var(--leaf); }
+  .week.p3 .marker { background: var(--umber-soft); color: var(--umber); }
+  .week .body h3 {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .week .body p {
+    color: var(--ink-2);
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .week .body dl {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 4px 14px;
+    margin: 0;
+    font-size: 13px;
+  }
+  .week .body dt {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 3px;
+  }
+  .week .body dd {
+    margin: 0;
+    color: var(--ink-2);
+  }
+  @media (max-width: 640px) {
+    .week { grid-template-columns: 1fr; gap: 8px; }
+    .week .body dl { grid-template-columns: 1fr; gap: 0; }
+    .week .body dt { padding-top: 6px; }
+  }
+
+  /* ── Risks + demo script ─────────────────────────── */
+  .risks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+  @media (max-width: 720px) { .risks { grid-template-columns: 1fr; } }
+  .risk {
+    padding: 18px 20px 18px 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .risk:nth-child(odd) { border-right: 1px solid var(--rule-soft); padding-right: 20px; }
+  .risk:nth-child(odd):last-child { border-right: none; }
+  .risk .rname {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--umber);
+    margin-bottom: 4px;
+  }
+  .risk .rtitle {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .risk p { font-size: 13.5px; color: var(--ink-2); margin: 0; }
+
+  ol.demo {
+    counter-reset: beat;
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+    border-top: 1px solid var(--rule-soft);
+  }
+  ol.demo li {
+    counter-increment: beat;
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: baseline;
+  }
+  ol.demo li::before {
+    content: "0" counter(beat);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  ol.demo li .who {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  ol.demo li .txt { font-size: 14px; color: var(--ink-2); }
+
+  /* ── Cut list ────────────────────────────────────── */
+  ol.cuts {
+    counter-reset: cut;
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+    border-top: 1px solid var(--rule-soft);
+  }
+  ol.cuts li {
+    counter-increment: cut;
+    display: grid;
+    grid-template-columns: 44px 1fr 130px;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: start;
+  }
+  @media (max-width: 640px) {
+    ol.cuts li { grid-template-columns: 44px 1fr; }
+    ol.cuts li .saves { grid-column: 2; margin-top: 4px; }
+  }
+  ol.cuts li::before {
+    content: "0" counter(cut);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--umber);
+    font-weight: 500;
+    padding-top: 2px;
+  }
+  ol.cuts .cutname {
+    display: block;
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+    letter-spacing: -0.005em;
+  }
+  ol.cuts .repl {
+    display: block;
+    font-size: 13.5px;
+    color: var(--ink-2);
+    margin-bottom: 4px;
+  }
+  ol.cuts .cost {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  ol.cuts .saves {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--umber);
+    text-align: right;
+    padding-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .cuts-note {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 14px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 12px;
+    border-top: 2px solid var(--umber);
+  }
+  .cuts-note .total {
+    color: var(--umber);
+    font-weight: 500;
+  }
+
+  /* ── Colophon ────────────────────────────────────── */
+  footer.colophon {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  /* Focus */
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+
+<div class="page">
+
+  <!-- ══════════ MASTHEAD ══════════ -->
+  <header class="mast">
+    <div class="mast-row">
+      <span class="doc-id">SHIP · Delivery Plan · v5 · Fudged auth · Cut list</span>
+      <span>Prepared 2026-09-10 · 12-week window</span>
+    </div>
+    <h1>Twelve weeks, <em>one builder + AI</em>, one Hub for IP.</h1>
+    <p class="deck">Solo build of an invite-only SHIP demo for 5–10 pilot users, with seeded IP entries across the six Schmidt entities. AI-assisted throughout, taking over a half-built stack: Next.js frontend with real public content pages, Python backend on Postgres with Alembic already in place. Scope reflects both what&rsquo;s inherited and what one person can extend.</p>
+  </header>
+
+  <!-- ══════════ AT A GLANCE ══════════ -->
+  <section aria-labelledby="glance">
+    <div class="eyebrow" id="glance">At a glance</div>
+    <div class="tiles">
+      <div class="tile"><div class="val">12</div><div class="lbl">Weeks</div></div>
+      <div class="tile"><div class="val">1</div><div class="lbl">Builder</div></div>
+      <div class="tile"><div class="val">5–10</div><div class="lbl">Pilot users</div></div>
+      <div class="tile"><div class="val">6</div><div class="lbl">Roles supported</div></div>
+      <div class="tile"><div class="val">4</div><div class="lbl">Core surfaces</div></div>
+    </div>
+    <div class="callout">
+      <div class="cname">Working assumption</div>
+      <p>~25 productive hours a week × ~1.5&times; AI assist on well-scoped work — averages to roughly the equivalent of one full-time engineer on a good week, less on ambiguous ones. AI is not a multiplier on decisions or on debugging integration glue between Next.js and the inherited Python backend. About one week of the twelve is real buffer; use it on polish, not new scope.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ GANTT BAND ══════════ -->
+  <section aria-labelledby="shape">
+    <div class="eyebrow" id="shape">Shape of the build</div>
+    <h2>Three phases, one loop, one demo.</h2>
+    <p class="lede">Foundations first, then the submit → review → publish → discover loop across five weeks, then admin, seeding, and pilot polish. Design tokens and hosting stay live under the whole thing.</p>
+
+    <div class="gantt-wrap" style="margin-top: 18px;">
+      <div class="gantt">
+        <div class="hdr corner">Track</div>
+        <div class="hdr">W1</div><div class="hdr">W2</div><div class="hdr">W3</div>
+        <div class="hdr">W4</div><div class="hdr">W5</div><div class="hdr">W6</div>
+        <div class="hdr">W7</div><div class="hdr">W8</div><div class="hdr">W9</div>
+        <div class="hdr">W10</div><div class="hdr">W11</div><div class="hdr">W12</div>
+
+        <div class="row-lbl">Foundations</div>
+        <div class="cell"><div class="bar"></div></div>
+        <div class="cell"><div class="bar"></div></div>
+        <div class="cell"><div class="bar faint"></div></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+
+        <div class="row-lbl">Submitter</div>
+        <div class="cell"></div><div class="cell"></div>
+        <div class="cell"><div class="bar leaf"></div></div>
+        <div class="cell"><div class="bar leaf"></div></div>
+        <div class="cell"><div class="bar leaf"></div></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+
+        <div class="row-lbl">Reviewer + Legal</div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div>
+        <div class="cell"><div class="bar leaf"></div></div>
+        <div class="cell"><div class="bar leaf"></div></div>
+        <div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+
+        <div class="row-lbl">Public site</div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"><div class="bar leaf"></div></div>
+        <div class="cell"><div class="bar leaf"></div></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+
+        <div class="row-lbl">Admin + audit</div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"><div class="bar umber"></div></div>
+        <div class="cell"><div class="bar faint umber"></div></div>
+        <div class="cell"></div>
+
+        <div class="row-lbl">Seed &amp; pilot</div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"><div class="bar umber"></div></div>
+        <div class="cell"><div class="bar umber"></div></div>
+
+        <div class="row-lbl">Design &amp; ops</div>
+        <div class="cell"><div class="bar faint"></div></div>
+        <div class="cell"><div class="bar faint"></div></div>
+        <div class="cell"><div class="bar faint"></div></div>
+        <div class="cell"><div class="bar faint"></div></div>
+        <div class="cell"><div class="bar faint"></div></div>
+        <div class="cell"><div class="bar faint"></div></div>
+        <div class="cell"><div class="bar faint"></div></div>
+        <div class="cell"><div class="bar faint"></div></div>
+        <div class="cell"><div class="bar faint"></div></div>
+        <div class="cell"><div class="bar faint"></div></div>
+        <div class="cell"><div class="bar faint"></div></div>
+        <div class="cell"><div class="bar faint"></div></div>
+      </div>
+    </div>
+    <div class="gantt-legend">
+      <span><span class="sw a"></span>Foundations</span>
+      <span><span class="sw l"></span>Core loop</span>
+      <span><span class="sw u"></span>Admin &amp; pilot</span>
+    </div>
+  </section>
+
+  <!-- ══════════ SCOPE READ ══════════ -->
+  <section aria-labelledby="scope">
+    <div class="eyebrow" id="scope">The read on scope</div>
+    <h2>What one person + AI builds, and what waits.</h2>
+    <p>Three items moved back into scope from the v2 plan &mdash; possible because the AI multiplier lifts throughput and because the public content pages are already half-built. Everything still on the &ldquo;Out&rdquo; list is <em>deferred, not dropped</em>: the data model is drawn as if those surfaces existed, so wiring them up post-pilot is UI work, not a rewrite.</p>
+
+    <div class="cols">
+      <div>
+        <h3 style="color: var(--accent);">In — the demo-critical cut</h3>
+        <ul class="tight">
+          <li><span class="n">01</span><span>Public portfolio: list, filter by type &amp; entity, entry detail, download-with-license-acceptance</span></li>
+          <li><span class="n">02</span><span><b>Public content pages:</b> About SHIP, IP Learning Hub, IP Glossary, Resources <em style="color:var(--leaf);">— inherited, ~50% done</em></span></li>
+          <li><span class="n">03</span><span>Submitter: single-entry wizard (2 steps), drafts, my submissions, inbox</span></li>
+          <li><span class="n">04</span><span>Reviewer: queue with filters, submission detail, four decisions (approve · legal · return · request info)</span></li>
+          <li><span class="n">05</span><span><b>Legal Reviewer as a distinct workflow:</b> own sidebar, own queue, own decisions; &ldquo;Request Legal Review&rdquo; routes here</span></li>
+          <li><span class="n">06</span><span>Org Admin: overview tiles, team management, org submissions view</span></li>
+          <li><span class="n">07</span><span>Super Admin: <em>read-only</em> platform overview + benchmark table</span></li>
+          <li><span class="n">08</span><span><b>Audit log viewer UI:</b> filter by actor, entity, event type, time window</span></li>
+          <li><span class="n">09</span><span>Pilot auth: shared basic-auth gate + pick-a-user dropdown; roles from <code>Membership.role</code>. Real auth swapped in post-demo.</span></li>
+          <li><span class="n">10</span><span>In-app notifications + IP-holder message relay (both parties&rsquo; Inbox)</span></li>
+          <li><span class="n">11</span><span>File attachments and image gallery via signed uploads (50 MB cap for demo)</span></li>
+          <li><span class="n">12</span><span>Seeded content: 6 orgs, ~15 published entries, 5–10 pilot users, licenses catalog</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="color: var(--umber);">Out — deferred past the demo</h3>
+        <ul class="tight out">
+          <li><span class="n">01</span><span>Batch upload of submissions</span></li>
+          <li><span class="n">02</span><span>Program Admin scope (folded under Org Admin)</span></li>
+          <li><span class="n">03</span><span>1-Time invites and 1-time public submission form</span></li>
+          <li><span class="n">04</span><span>Content Moderation queue, Platform Settings, Org Settings</span></li>
+          <li><span class="n">05</span><span>Real full-text search (title/tag substring match in v1)</span></li>
+          <li><span class="n">06</span><span>Email delivery to external recipients (in-app inbox only)</span></li>
+          <li><span class="n">07</span><span>Accessibility audit + compliance sign-off (target after pilot)</span></li>
+          <li><span class="n">08</span><span>File virus scanning (upload pipeline drawn; scanner deferred)</span></li>
+          <li><span class="n">09</span><span>Real analytics beyond seeded benchmarks</span></li>
+          <li><span class="n">10</span><span>Authoring UI for content pages (Markdown-in-repo for MVP; CMS later)</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ INHERITED CODEBASE ══════════ -->
+  <section aria-labelledby="inherit">
+    <div class="eyebrow" id="inherit">The inherited codebase</div>
+    <h2>Extend what you inherit; don&rsquo;t rebuild it.</h2>
+    <p>You&rsquo;re inheriting on both sides: a Next.js frontend with real public content pages, and a Python backend on Postgres with Alembic migrations already in place. The rule below: extend what has real shape, rewrite what doesn&rsquo;t, and don&rsquo;t re-solve problems the previous developer already solved.</p>
+
+    <table class="stack">
+      <thead><tr><th>Layer</th><th>Default call</th><th>Trigger to reconsider</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="role">Content pages (FE)</td>
+          <td class="tool">Keep in place, re-skin to tokens</td>
+          <td>Only rewrite if they use an old Pages Router API you don&rsquo;t want to carry.</td>
+        </tr>
+        <tr>
+          <td class="role">App shell (FE)</td>
+          <td class="tool">Adopt if App Router; wrap if Pages Router</td>
+          <td>Whichever router the content pages use is the router the whole app uses.</td>
+        </tr>
+        <tr>
+          <td class="role">Design tokens</td>
+          <td class="tool">Extract from existing pages first</td>
+          <td>If ad-hoc, define your own and re-skin inherited pages to match.</td>
+        </tr>
+        <tr>
+          <td class="role">Postgres schema</td>
+          <td class="tool">Keep what exists; add via new Alembic revisions</td>
+          <td>Only rewrite a table if the current shape actively blocks the wireframe spec.</td>
+        </tr>
+        <tr>
+          <td class="role">Backend framework</td>
+          <td class="tool">Keep whatever&rsquo;s there (FastAPI / Flask / Django)</td>
+          <td>Only re-platform if there&rsquo;s no working request path at all.</td>
+        </tr>
+        <tr>
+          <td class="role">Auth</td>
+          <td class="tool">If backend has session/JWT wired, extend it. Else add Clerk (frontend) or magic-link on the backend.</td>
+          <td>Rewriting inherited auth in W1 has eaten many pilots. Avoid unless truly broken.</td>
+        </tr>
+        <tr>
+          <td class="role">Dependencies</td>
+          <td class="tool">Audit both lockfiles (pnpm + Python); upgrade before touching code</td>
+          <td>Stale Python deps + old Alembic revs are where a lost weekend hides.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <div class="cname">Decisions needed in W1</div>
+      <p>Two calls to make on day two: (1) which Python framework (FastAPI is the assumption baked into the plan below; Flask/Django costs 1&ndash;2 days extra to learn if new to you); (2) which Next.js router (App Router preferred, but follow whichever the content pages use). Auth is <em>not</em> a W1 decision anymore &mdash; the pilot runs on a shared basic-auth gate + pick-a-user dropdown (see Stack), with real auth deferred until post-demo.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ STACK ══════════ -->
+  <section aria-labelledby="stack">
+    <div class="eyebrow" id="stack">Recommended stack</div>
+    <h2>Solo tools: extend inherited, add only what you must.</h2>
+    <p>Two-target stack: a Next.js frontend deploying to Vercel, and the inherited Python + Postgres + Alembic backend deploying to Fly.io (or wherever it already runs). The list below is what the plan below assumes; confirm each row in W1.</p>
+
+    <table class="stack">
+      <thead>
+        <tr><th>Layer</th><th>Choice</th><th>Why this and not the alternative</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="role">Frontend</td>
+          <td class="tool">Next.js 15 · TypeScript · <em>router TBD in W1</em></td>
+          <td>App Router preferred; inherit whichever the content pages use so you&rsquo;re not straddling both.</td>
+        </tr>
+        <tr>
+          <td class="role">Backend</td>
+          <td class="tool">Python · <em>framework TBD, assume FastAPI</em></td>
+          <td>Inherited. FastAPI is the assumption; Flask/Django would cost a couple of days to acclimate.</td>
+        </tr>
+        <tr>
+          <td class="role">Database</td>
+          <td class="tool">Postgres <em>(inherited)</em></td>
+          <td>Already there. Managed instance: Neon or Supabase Postgres — pick whatever the previous dev used.</td>
+        </tr>
+        <tr>
+          <td class="role">ORM + migrations</td>
+          <td class="tool">SQLAlchemy 2.0 + Alembic <em>(inherited)</em></td>
+          <td>Extend the existing model classes; every schema change is a new Alembic revision.</td>
+        </tr>
+        <tr>
+          <td class="role">API contract</td>
+          <td class="tool">FastAPI OpenAPI → typed client via <code>openapi-typescript</code></td>
+          <td>One schema, two languages. Frontend never invents types the backend doesn&rsquo;t bless.</td>
+        </tr>
+        <tr>
+          <td class="role">Auth <em>(pilot)</em></td>
+          <td class="tool">Pick-a-user dropdown + shared basic-auth gate</td>
+          <td>The wireframes&rsquo; demo bar <em>is</em> this pattern. One shared password to enter the pilot, then a signed cookie stores <code>user_id</code>. Buys ~4 days back into W2 for schema reconciliation.</td>
+        </tr>
+        <tr>
+          <td class="role">Auth <em>(post-pilot)</em></td>
+          <td class="tool">Clerk (FE) or magic-link (BE)</td>
+          <td>Swap in as a scoped ~1 week task <em>before</em> real users get accounts. Do not ship the pilot pattern to production.</td>
+        </tr>
+        <tr>
+          <td class="role">Storage</td>
+          <td class="tool">S3-compatible object store · Cloudflare R2</td>
+          <td>Cheap, no egress fees. Direct-to-storage signed uploads via a backend endpoint that returns a presigned URL.</td>
+        </tr>
+        <tr>
+          <td class="role">UI</td>
+          <td class="tool">Tailwind + shadcn/ui, custom tokens</td>
+          <td>Ships fast, overridden with a SHIP-specific token layer so it doesn&rsquo;t read as generic.</td>
+        </tr>
+        <tr>
+          <td class="role">Forms &amp; validation</td>
+          <td class="tool">React Hook Form + Zod</td>
+          <td>Zod schemas mirror the OpenAPI types; wizard drafts are just a partial parse.</td>
+        </tr>
+        <tr>
+          <td class="role">Search</td>
+          <td class="tool">Postgres <code>ILIKE</code> + <code>pg_trgm</code> index</td>
+          <td>Enough for a few dozen seeded entries. Full-text is a swap-in later; no schema change.</td>
+        </tr>
+        <tr>
+          <td class="role">Error tracking</td>
+          <td class="tool">Sentry on both FE and BE</td>
+          <td>Solo means silent failures cost you a week. Wire it W1 on both sides, keep it wired.</td>
+        </tr>
+        <tr>
+          <td class="role">Hosting &amp; CI</td>
+          <td class="tool">Vercel (FE) + Fly.io (BE) + GitHub Actions</td>
+          <td>Two deploys; both PR-preview capable. Pilot URL fixed from W8 onward.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══════════ HATS ══════════ -->
+  <section aria-labelledby="hats">
+    <div class="eyebrow" id="hats">You, wearing every hat</div>
+    <h2>Five roles, one person, one weekly rhythm.</h2>
+    <p>The plan is honest about what solo actually costs. Below is what each hat owns, plus the weekly rhythm that keeps them from colliding.</p>
+    <table class="hats">
+      <thead><tr><th>Hat</th><th>Owns</th><th>Roughly</th></tr></thead>
+      <tbody>
+        <tr><td class="tool">Engineer</td><td>All schema, all UI, all deployment. This is the majority of your week.</td><td class="role">~18 hrs</td></tr>
+        <tr><td class="tool">Designer</td><td>Token system extracted from wireframes W1; hero-screen polish in W3, W6, W8, W10.</td><td class="role">~3 hrs</td></tr>
+        <tr><td class="tool">PM</td><td>Scope guardrail, decisions log, weekly self-demo Friday, pilot recruit from W2.</td><td class="role">~2 hrs</td></tr>
+        <tr><td class="tool">QA</td><td>Manual pass against a checklist at end of each phase; bug bash W11.</td><td class="role">~1 hr</td></tr>
+        <tr><td class="tool">Ops</td><td>Sentry, backups, secret rotation, Supabase quotas.</td><td class="role">~1 hr</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <div class="cname">Weekly rhythm</div>
+      <p><b>Mon</b> plan the week &amp; unblock. <b>Tue–Thu</b> engineering. <b>Fri AM</b> ship &amp; self-demo. <b>Fri PM</b> PM hat: decisions log, pilot outreach, next-week plan. Weekends are buffer, not built-in.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ WEEKS ══════════ -->
+  <section aria-labelledby="weeks">
+    <div class="eyebrow" id="weeks">The plan, week by week</div>
+    <h2>What ships each week, what you can demo Friday, where the risk lives.</h2>
+
+    <!-- Phase 1 -->
+    <div class="phase p1">
+      <div class="phase-head">
+        <span class="num">Phase 01</span>
+        <span class="title">Foundations</span>
+        <span class="span">W1 → W2</span>
+      </div>
+
+      <div class="week p1">
+        <div class="code"><span class="wk">W1</span>Sep 14<span class="marker">Inherit + kickoff</span></div>
+        <div class="body">
+          <h3>Audit both repos, three decisions, scaffold</h3>
+          <p>Days 1&ndash;2: clone frontend and backend, get both running locally against a fresh Postgres, read every Next.js route, read every FastAPI/Flask/Django route, list every Alembic revision, audit both lockfiles. Make the three W1 decisions (framework, router, auth) and write them down. Days 3&ndash;5: stand up Vercel (FE) + Fly.io (BE) deploys, GitHub Actions on both, Sentry on both. Extract a token layer from wireframes + inherited pages so both look like one product.</p>
+          <dl>
+            <dt>Ships</dt><dd>Both repos running locally + on preview URLs; three decisions logged; tokens file; scope cut signed</dd>
+            <dt>Demo</dt><dd>Inherited content pages served from your deploy; decisions log walked through</dd>
+            <dt>Risk</dt><dd>Backend framework is Django &mdash; add 2 days for admin/ORM idioms; drop nothing from &ldquo;In&rdquo; unless W2 slips too</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="week p1">
+        <div class="code"><span class="wk">W2</span>Sep 21<span class="marker">Data + API</span></div>
+        <div class="body">
+          <h3>Extend schema, fudge auth, generate typed client</h3>
+          <p>Extend the inherited schema via new Alembic revisions to cover the wireframe entities: <em>Organization, Program, User, Membership (with role), Submission, SubmissionVersion, License, Attachment, Review, ReviewDecision, MessageThread, Notification, AuditEvent</em>. Keep existing tables where they overlap; do not rewrite them &mdash; reconcile the diff in writing. Publish OpenAPI from the backend; generate a typed TS client on the frontend. Ship the pilot auth pattern: shared HTTP basic-auth gate on the whole deployment, pick-a-user dropdown behind it, signed cookie stores <code>user_id</code>, server checks it every request, <code>Membership.role</code> drives authz.</p>
+          <dl>
+            <dt>Ships</dt><dd>Alembic revisions for all new entities; pilot auth end-to-end; typed API client on FE; role-assume bar (same mechanism as the login); seed v0 (2 orgs, 4 users)</dd>
+            <dt>Demo</dt><dd>Enter shared password, pick a user, land on the right dashboard for that role &mdash; all data through the backend, no mocks</dd>
+            <dt>Risk</dt><dd>Backend has partial versions of these tables that disagree with the wireframes &mdash; reconcile now, not later; write the diff in the decisions log</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase p2">
+      <div class="phase-head">
+        <span class="num">Phase 02</span>
+        <span class="title">The core loop</span>
+        <span class="span">W3 → W9</span>
+      </div>
+
+      <div class="week p2">
+        <div class="code"><span class="wk">W3</span>Sep 28<span class="marker">Wizard · 1</span></div>
+        <div class="body">
+          <h3>Submitter shell + wizard step 1</h3>
+          <p>Submitter dashboard (empty states first, real data next). Wizard step 1 — <em>IP Subject</em> — title, entry type, subject matter, filing/creation date, abstract, full description. Autosave to draft every field. Entry-type-conditional fields (patent skips the external-data-source note; datasets don&rsquo;t).</p>
+          <dl>
+            <dt>Ships</dt><dd>Submitter dashboard; wizard step 1 with autosave</dd>
+            <dt>Demo</dt><dd>Anya starts a new patent, closes the tab, reopens — draft is there</dd>
+            <dt>Gate</dt><dd>G1 — <b>Shape</b>: is the wizard shape right? Sign-off required to keep going.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="week p2">
+        <div class="code"><span class="wk">W4</span>Oct 5<span class="marker">Wizard · 2</span></div>
+        <div class="body">
+          <h3>Wizard step 2 + submit</h3>
+          <p>Step 2 — <em>Inventors &amp; Authors</em> — plus licensing goals (multi-select), preferred license (from a real catalog), licensing notes. Submit transitions to <b>Pending Review</b> and writes an audit event. My Submissions list with status pills.</p>
+          <dl>
+            <dt>Ships</dt><dd>Wizard step 2; submit action; My Submissions list</dd>
+            <dt>Demo</dt><dd>Anya finishes a submission end-to-end, sees it in Pending Review</dd>
+            <dt>Risk</dt><dd>License catalog spec drift — write it down in W4 and don&rsquo;t touch it again</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="week p2">
+        <div class="code"><span class="wk">W5</span>Oct 12<span class="marker">Uploads</span></div>
+        <div class="body">
+          <h3>Attachments and image gallery</h3>
+          <p>Supabase Storage integration. Direct-to-storage signed uploads for docs (PDF, DOCX, CSV, ZIP). Image gallery uploads (JPG, PNG). Server-side validation of MIME + size (50 MB cap for the demo, not the 500 MB in the wireframes — noted in the decision log). Progress + retry UI.</p>
+          <dl>
+            <dt>Ships</dt><dd>Signed uploads; attachments panel; image gallery</dd>
+            <dt>Demo</dt><dd>Anya attaches a PDF and three images to her draft; both appear on the entry</dd>
+            <dt>Risk</dt><dd>Uploads always take longer than expected — cap size, ship, iterate</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="week p2">
+        <div class="code"><span class="wk">W6</span>Oct 19<span class="marker">Queue</span></div>
+        <div class="body">
+          <h3>Reviewer queue + submission detail</h3>
+          <p>Queue list with the five status filters (All / Pending / Approved / Returned / Info Requested), search by title/org/ID, select-all-pending. Submission detail (read view) with attachments and gallery. Metrics tiles on the Reviewer overview (Pending / Approved / Returned / Avg turnaround).</p>
+          <dl>
+            <dt>Ships</dt><dd>Reviewer overview + queue + detail read view</dd>
+            <dt>Demo</dt><dd>Priya opens the queue, filters to Pending, opens Anya&rsquo;s submission</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="week p2">
+        <div class="code"><span class="wk">W7</span>Oct 26<span class="marker">Decisions + Legal</span></div>
+        <div class="body">
+          <h3>Reviewer decisions, publish, Legal Reviewer branch</h3>
+          <p>Reviewer decisions with side effects: <em>Approve</em> → Published (stable <code>SH-YYYY-####</code> id), <em>Return</em> → back to submitter with reason, <em>Request info</em> → threaded message. Every decision writes an <code>AuditEvent</code>. <b>Legal Reviewer as a distinct role:</b> its own sidebar section (Legal Overview, Legal Queue), its own filtered queue drawn from submissions in <code>legal_pending</code> state, and its own decisions (<em>Legal approve</em> → Published; <em>Legal return with concerns</em> → back to reviewer or submitter). &ldquo;Request Legal Review&rdquo; on a reviewer decision is what routes a submission into the legal queue.</p>
+          <dl>
+            <dt>Ships</dt><dd>Reviewer decisions; publish path; Legal Reviewer sidebar + queue + decisions</dd>
+            <dt>Demo</dt><dd>Priya approves one, returns one, sends one to Legal. Emma-as-Legal reviews it and Legal-approves.</dd>
+            <dt>Risk</dt><dd>State machine grows an edge case &mdash; draw it on paper before coding, keep it to 6 states max</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="week p2">
+        <div class="code"><span class="wk">W8</span>Nov 2<span class="marker">Public site</span></div>
+        <div class="body">
+          <h3>Public portfolio + finish inherited content pages</h3>
+          <p>Public list at <code>/portfolio</code>: filter by entry type, subject, entity; sortable; paginated. Entry detail with description, inventors, licensing, attachments, gallery, related entries. Then close out the inherited work: <em>About SHIP</em>, <em>IP Learning Hub</em>, <em>IP Glossary</em>, <em>Resources</em> &mdash; re-skinned to your tokens, all copy in Markdown-in-repo (no CMS), navigation and footer unified with the app shell.</p>
+          <dl>
+            <dt>Ships</dt><dd>Portfolio list + entry detail; four public content pages finished</dd>
+            <dt>Demo</dt><dd>Visitor lands on homepage, reads About, opens Glossary, browses to Anya&rsquo;s fresh entry</dd>
+            <dt>Risk</dt><dd>Content pages steal the week &mdash; timebox to 3 days; leave polish for W12</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="week p2">
+        <div class="code"><span class="wk">W9</span>Nov 9<span class="marker">Close loop</span></div>
+        <div class="body">
+          <h3>Download flow + message relay + notifications</h3>
+          <p>Download requires a brief form recording license acceptance, then issues a signed URL. &ldquo;Contact IP holder&rdquo; sends into an in-app thread visible in both Inboxes. Notifications: badge in the top bar, list in the Inbox, on state changes.</p>
+          <dl>
+            <dt>Ships</dt><dd>Gated downloads; message relay; in-app notifications</dd>
+            <dt>Demo</dt><dd>Full loop: submit → review → publish → discover → license → message → reply</dd>
+            <dt>Gate</dt><dd>G2 — <b>Loop</b>: the end-to-end walk runs on seeded data without stepping outside the app.</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase p3">
+      <div class="phase-head">
+        <span class="num">Phase 03</span>
+        <span class="title">Admin, seed, and pilot</span>
+        <span class="span">W10 → W12</span>
+      </div>
+
+      <div class="week p3">
+        <div class="code"><span class="wk">W10</span>Nov 16<span class="marker">Admin + Audit</span></div>
+        <div class="body">
+          <h3>Org Admin, read-only Super Admin, Audit log viewer</h3>
+          <p>Org Admin: overview tiles (Published IP, In review, Team members, Downloads 90d, benchmark trio), team management (invite, remove, change role within org), org submissions view. Super Admin: <em>read-only</em> platform overview &mdash; entity/program counts, submissions overview, cross-entity benchmark table. <b>Audit log viewer</b> under Super Admin: paginated table over the events already written since W2, filterable by actor, entity, event type, and time window; click-through to the submission or user that the event references. All numbers computed from seeded events, not hardcoded.</p>
+          <dl>
+            <dt>Ships</dt><dd>Org Admin dashboard + team + org submissions; Super Admin overview; Audit log viewer</dd>
+            <dt>Demo</dt><dd>Anya-as-Org-Admin promotes Marcus to Reviewer; Jordan-as-Super-Admin traces a published entry back through review, submit, edit in the Audit viewer</dd>
+            <dt>Risk</dt><dd>Team-management edge cases eat the week &mdash; cap to invite / change-role / remove; Audit viewer stays read-only</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="week p3">
+        <div class="code"><span class="wk">W11</span>Nov 23<span class="marker">Pilot</span></div>
+        <div class="body">
+          <h3>Seed v2, bug bash, pilot invites</h3>
+          <p>Deterministic seed pipeline (one <code>pnpm seed</code>): 6 Schmidt entities, 15 published entries drawn from the wireframes, 5–10 real pilot accounts mapped to roles, ~30 seeded review events, ~200 download events so benchmarks tell a real story. Two-day self-run bug bash against the demo script. Pilot invites go out Fri with a one-page onboarding guide.</p>
+          <dl>
+            <dt>Ships</dt><dd>Full seed; pilot access; onboarding guide</dd>
+            <dt>Demo</dt><dd>Cold sign-in as any pilot user — dashboards land populated and coherent</dd>
+            <dt>Gate</dt><dd>G3 — <b>Pilot ready</b>: no P0 bugs; every seeded account works cold.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="week p3">
+        <div class="code"><span class="wk">W12</span>Nov 30<span class="marker">Demo</span></div>
+        <div class="body">
+          <h3>Pilot feedback triage + demo day</h3>
+          <p>Mon–Wed: triage pilot feedback in a spreadsheet; land only P0/P1 fixes; freeze Wednesday evening. Thu: dress rehearsal on the demo script (below), timed twice. Fri: <b>demo day</b>, followed by a written &ldquo;what we&rsquo;d build next&rdquo; note based on what the pilot actually did.</p>
+          <dl>
+            <dt>Ships</dt><dd>Pilot fixes, rehearsal, demo, post-demo roadmap note</dd>
+            <dt>Demo</dt><dd>See <em>Demo script</em> below</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ SEED DATA ══════════ -->
+  <section aria-labelledby="seed">
+    <div class="eyebrow" id="seed">Seed data</div>
+    <h2>What has to be true on first sign-in.</h2>
+    <p>Entries come from the wireframes so pilot users see recognisable content, not lorem. Every benchmark number is computed from seeded events — never hardcoded — so &ldquo;why is this 71%?&rdquo; always has a row-level answer.</p>
+
+    <table class="seed">
+      <thead><tr><th>Entity</th><th>Members</th><th>Published</th><th>In review / Draft</th><th>Signals for benchmarks</th></tr></thead>
+      <tbody>
+        <tr><td class="tool">Schmidt Futures</td><td>3</td><td>2</td><td>2 / 1</td><td>Licensing 71% · 80 dl/entry · 9% return</td></tr>
+        <tr><td class="tool">Schmidt Ocean Institute</td><td>2</td><td>3</td><td>1 / 0</td><td>66% · 58 · 12%</td></tr>
+        <tr><td class="tool">Schmidt DataX</td><td>2</td><td>2</td><td>1 / 1</td><td>74% · 91 · 7%</td></tr>
+        <tr><td class="tool">Schmidt Marine Technology</td><td>1</td><td>2</td><td>0 / 0</td><td>55% · 44 · 19%</td></tr>
+        <tr><td class="tool">Schmidt Pandemic Science</td><td>1</td><td>2</td><td>1 / 0</td><td>61% · 55 · 15%</td></tr>
+        <tr><td class="tool">Schmidt Clean Energy</td><td>1</td><td>2</td><td>0 / 0</td><td>58% · 47 · 21%</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══════════ PILOT USERS ══════════ -->
+  <section aria-labelledby="pilot">
+    <div class="eyebrow" id="pilot">Pilot users</div>
+    <h2>Eight accounts covering every role in the wireframes.</h2>
+    <table class="users">
+      <thead><tr><th>Name</th><th>Role</th><th>Entity</th><th>Why they&rsquo;re on the pilot</th></tr></thead>
+      <tbody>
+        <tr><td class="tool">Dr. Anya Kowalski</td><td class="role">Submitter</td><td>Schmidt Futures</td><td>Active inventor with entries in flight — carries the submitter story</td></tr>
+        <tr><td class="tool">Prof. Marcus Lee</td><td class="role">Submitter</td><td>Schmidt Futures</td><td>Second submitter, tests concurrent-in-org submissions</td></tr>
+        <tr><td class="tool">Dr. Priya Nair</td><td class="role">Reviewer</td><td>Schmidt Futures</td><td>Runs the queue, generates most review events</td></tr>
+        <tr><td class="tool">Tariq Al-Hassan</td><td class="role">Submitter (pending)</td><td>Schmidt DataX</td><td>Tests the pending-membership state on sign-in</td></tr>
+        <tr><td class="tool">Dr. Emma Schultz</td><td class="role">Legal Reviewer</td><td>Schmidt Pandemic Sci.</td><td>Receives one submission routed via &ldquo;Request Legal Review&rdquo;</td></tr>
+        <tr><td class="tool">Rae Ortega</td><td class="role">Org Admin</td><td>Schmidt Ocean Institute</td><td>Exercises team management + org benchmark view</td></tr>
+        <tr><td class="tool">Jordan Kim</td><td class="role">Super Admin</td><td>&mdash;</td><td>Cross-entity read-only overview</td></tr>
+        <tr><td class="tool">&ldquo;Guest visitor&rdquo;</td><td class="role">Unauthenticated</td><td>&mdash;</td><td>Public portfolio + download flow (no account)</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top: 14px; color: var(--muted); font-size: 13px;">Two more slots held open for a sponsor account and a real Schmidt program lead added mid-phase-3.</p>
+  </section>
+
+  <!-- ══════════ GATES ══════════ -->
+  <section aria-labelledby="gates">
+    <div class="eyebrow" id="gates">Milestones &amp; gates</div>
+    <h2>Three points where you stop and decide.</h2>
+    <table class="gates">
+      <thead><tr><th>Gate</th><th>When</th><th>What must be true to pass</th></tr></thead>
+      <tbody>
+        <tr><td class="tool">G1 · Shape</td><td class="role">End W3</td><td>Wizard step 1 saves a draft that a reviewer will (eventually) recognise. Sponsor agrees the shape is right.</td></tr>
+        <tr><td class="tool">G2 · Loop</td><td class="role">End W9</td><td>An end-to-end walkthrough (submit → publish → discover → license → message) runs on real seeded data without stepping outside the app.</td></tr>
+        <tr><td class="tool">G3 · Pilot ready</td><td class="role">End W11</td><td>Any pilot user can sign in cold and complete their role&rsquo;s job. No P0 bugs open.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══════════ RISKS ══════════ -->
+  <section aria-labelledby="risks">
+    <div class="eyebrow" id="risks">Risks worth naming</div>
+    <h2>Six things most likely to eat the twelve weeks.</h2>
+    <div class="risks">
+      <div class="risk">
+        <div class="rname">R1 · Solo capacity, AI-shaped</div>
+        <div class="rtitle">AI speeds the well-scoped, not the ambiguous.</div>
+        <p>AI is a real multiplier on wiring code from clear specs and near-zero on debugging integration glue or making architectural calls. Mitigation: spend the AI budget on the middle third of the week (build), not Monday (plan) or Friday (self-demo &amp; decisions).</p>
+      </div>
+      <div class="risk">
+        <div class="rname">R2 · Scope</div>
+        <div class="rtitle">The wireframes cover triple this scope.</div>
+        <p>Every deferred surface will get asked for. The &ldquo;Out&rdquo; list is signed at kickoff and re-shown at every gate; new asks trade against something already In, one-for-one.</p>
+      </div>
+      <div class="risk">
+        <div class="rname">R3 · No code review</div>
+        <div class="rtitle">Nobody catches your bad Tuesday.</div>
+        <p>Mitigation: types + Zod at every boundary; a small Playwright smoke test on the demo script from W6 that runs on every deploy. Sentry wired since W1.</p>
+      </div>
+      <div class="risk">
+        <div class="rname">R4 · Data credibility</div>
+        <div class="rtitle">Seed data that doesn&rsquo;t match the tiles.</div>
+        <p>Benchmarks are computed from seeded events, not hardcoded; every review and download in the seed is a real row. Reset in one command.</p>
+      </div>
+      <div class="risk">
+        <div class="rname">R5 · Pilot recruit</div>
+        <div class="rtitle">Real pilot users won&rsquo;t materialise on time.</div>
+        <p>Start pilot recruit in W2, not W10. Five confirmed users by end of W6 is the internal gate; anyone missing gets a stand-in account you drive yourself.</p>
+      </div>
+      <div class="risk">
+        <div class="rname">R6 · Uploads</div>
+        <div class="rtitle">File handling always takes longer.</div>
+        <p>500 MB cap in the wireframes is real work; you&rsquo;re shipping 50 MB and telling the pilot so. Direct-to-storage signed uploads only.</p>
+      </div>
+      <div class="risk">
+        <div class="rname">R7 · Inherited codebase</div>
+        <div class="rtitle">The backend is where the hidden work lives.</div>
+        <p>Stale Alembic revisions, half-implemented models that disagree with the wireframes, and dead auth code all cost days apiece. Mitigation: W2 reconciles the schema explicitly (diff written down), OpenAPI is the contract, and Sentry is wired to both sides from day one.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ CUT LIST ══════════ -->
+  <section aria-labelledby="cuts">
+    <div class="eyebrow" id="cuts">Cut list · in order</div>
+    <h2>What to drop if the W6 gate misses by more than a week.</h2>
+    <p>The In-list is honest but ambitious. If you&rsquo;re behind at G2 (end W6), apply these cuts <em>before</em> starting W7 &mdash; not after. Defending the full list into W10 and rushing the pilot is the failure mode this list exists to prevent. None of these cuts break the demo loop.</p>
+
+    <ol class="cuts">
+      <li>
+        <div>
+          <span class="cutname">Audit log viewer</span>
+          <span class="repl">Events keep being written to <code>AuditEvent</code>; no UI to browse them. Query directly from Postgres when needed.</span>
+          <span class="cost">Costs: one screen in Super Admin. Demo beat swaps to an SQL query on screen.</span>
+        </div>
+        <div class="saves">~4 days</div>
+      </li>
+      <li>
+        <div>
+          <span class="cutname">Legal Reviewer as a distinct role</span>
+          <span class="repl">Collapse back to a routing state on Reviewer. Same UI, filter by <code>legal_pending</code>. Emma logs in as a Reviewer and reads the queue.</span>
+          <span class="cost">Costs: no separate sidebar. State machine and audit trail are unchanged.</span>
+        </div>
+        <div class="saves">~4 days</div>
+      </li>
+      <li>
+        <div>
+          <span class="cutname">In-app message relay</span>
+          <span class="repl">Replace &ldquo;Contact IP holder&rdquo; with a form that opens a <code>mailto:</code> to the submitter&rsquo;s address. Keep the intent, drop the thread.</span>
+          <span class="cost">Costs: no in-app inbox thread. Notifications for messages disappear.</span>
+        </div>
+        <div class="saves">~4 days</div>
+      </li>
+      <li>
+        <div>
+          <span class="cutname">Notifications inbox</span>
+          <span class="repl">Keep the badge count on the top bar; click routes to <em>My Submissions</em> filtered to items with new activity. No dedicated list.</span>
+          <span class="cost">Costs: less polish on the notifications story. State-change awareness is preserved.</span>
+        </div>
+        <div class="saves">~2 days</div>
+      </li>
+    </ol>
+
+    <div class="cuts-note">
+      <span>Apply top-to-bottom, one at a time, until you&rsquo;re back on schedule</span>
+      <span class="total">Total headroom · ~14 days</span>
+    </div>
+  </section>
+
+  <!-- ══════════ DEMO SCRIPT ══════════ -->
+  <section aria-labelledby="demo">
+    <div class="eyebrow" id="demo">Demo script · W12</div>
+    <h2>Fifteen minutes, one loop, one message per beat.</h2>
+    <ol class="demo">
+      <li><div><span class="who">Beat · Public</span><span class="txt">Open <code>/portfolio</code>. Filter to <em>Ocean Sciences</em>. Show the mix of dataset, patent, and creative-works entries across four entities.</span></div></li>
+      <li><div><span class="who">Beat · Public</span><span class="txt">Open the Coral Reef Bleaching dataset. Walk description, gallery, license (CC BY 4.0). Click Download — accept the license in the brief form — file downloads with a signed URL.</span></div></li>
+      <li><div><span class="who">Beat · Submitter</span><span class="txt">Switch to Dr. Anya Kowalski. Start a new submission (patent). Fill IP Subject, add two inventors, upload a PDF + two images, pick Open Research License, submit.</span></div></li>
+      <li><div><span class="who">Beat · Reviewer → Legal</span><span class="txt">Switch to Dr. Priya Nair. Anya&rsquo;s submission is at the top of the queue. Send it to Legal Review. Switch to Dr. Emma Schultz (Legal Reviewer) &mdash; the same submission is now in her Legal Queue. Legal-approve; the entry publishes with a fresh <code>SH-YYYY-####</code> ID.</span></div></li>
+      <li><div><span class="who">Beat · Public</span><span class="txt">Sign out. Read one paragraph of the About page and open the IP Glossary to define &ldquo;Open Research License&rdquo;. Find Anya&rsquo;s new entry in the portfolio. Send a message to the IP holder via the Contact form.</span></div></li>
+      <li><div><span class="who">Beat · Submitter → Admin → Audit</span><span class="txt">Sign back in as Anya. Her Inbox has the message. Reply. Switch to Org Admin: benchmark tile ticks up. Close on Super Admin: open the Audit log, filter to this submission, and walk the full trail &mdash; create → submit → reviewer routed to legal → legal approve → publish → download → message.</span></div></li>
+    </ol>
+  </section>
+
+  <!-- ══════════ COLOPHON ══════════ -->
+  <footer class="colophon">
+    <span>SHIP · Twelve-Week Build Plan · v5 · Fudged pilot auth · Cut list on paper</span>
+    <span>Living document · versioned in the repo · reviewed at every gate</span>
+  </footer>
+
+</div>
+
+</body></html>
