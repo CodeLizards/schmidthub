@@ -1,10 +1,7 @@
-# SHIP: revised 10-week demo delivery plan
-
-17 September 2026 · One full-time engineer using Codex · 5–6 invited testers
+# 10-week demo delivery plan
 
 **Recommendation:** deliver a persistent, access-controlled seeded application that demonstrates submission, review, publication, discovery, sample downloads, correspondence and scoped administration. Keep all six role experiences. Reduce integration depth before cutting the central user journey. Do **not** promise full wireframe parity in ten weeks.
 
-This is a new revision of the delivery proposal for the latest **demo-first** brief. It supersedes the older real-data pilot and Next.js-only backend assumptions for this recommendation. Earlier documents and their in-progress edits are preserved. These are proposed implementation choices and cuts, not an assertion that an application has been built or omissions already approved.
 
 - [Codebase audit and verification](demo-codebase-audit.md)
 - [Architecture, data model, API and policy defaults](demo-architecture.md)
@@ -35,7 +32,7 @@ One engineer, supported by Codex, delivers the plan below. Allow a short demonst
 
 **What success looks like:** a tester can complete submission → review → publication → discovery → sample download or inquiry without the engineer doing the steps for them. Each role sees the appropriate information, work survives signing out and returning, and the demo can be reset for another session.
 
-**Product owner commitment:** attend the weekly review, answer scope and workflow questions within two business days. If work slips, agree an explicit feature reduction before sacrificing testing or the central submission-to-publication journey. The detailed schedule and cut list below explain the tradeoffs.
+**Product owner commitment:** attend the weekly review, answer scope and workflow questions. If work slips, agree an explicit feature reduction before sacrificing testing or the central submission-to-publication journey. The detailed schedule and cut list below explain the tradeoffs.
 
 ## 1. 10 Week Deliverables
 
